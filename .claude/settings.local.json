@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start \"c:\\\\Users\\\\PCD\\\\OneDrive - psu.edu.sa\\\\New Folder\\\\Fortnite Website\\\\payment.html\")",
+      "Bash(start \"c:\\\\Users\\\\PCD\\\\OneDrive - psu.edu.sa\\\\New Folder\\\\Fortnite Website\\\\index.html\")"
+    ]
+  }
+}
