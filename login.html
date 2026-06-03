@@ -506,7 +506,7 @@ const auth      = firebase.auth();
 const analytics = firebase.analytics();
 
 // ── Redirect target ──────────────────────────────────────────────
-const REDIRECT = 'payment.html';
+const REDIRECT = 'index.html';
 
 // ── Auto-redirect if already signed in ──────────────────────────
 auth.onAuthStateChanged(u => { if (u) succeed(); });
@@ -552,7 +552,7 @@ async function doSend() {
   try {
     if (!rcVerifier) {
       rcVerifier = new firebase.auth.RecaptchaVerifier('rcap', {
-        size: 'invisible',
+        size: 'normal',
         callback: () => {},
         'expired-callback': () => { rcVerifier = null; },
       });
