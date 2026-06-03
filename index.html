@@ -394,7 +394,7 @@ body.en .co-change-btn{margin-right:0;margin-left:auto}
 .pay-method:hover{border-color:rgba(255,208,96,0.4);background:rgba(255,208,96,0.03)}
 .pay-method.selected{border-color:var(--gold);background:rgba(255,208,96,0.06)}
 .pay-method input[type="radio"]{accent-color:var(--gold);width:15px;height:15px;flex-shrink:0;cursor:pointer}
-.pay-method-icon{font-size:20px;flex-shrink:0}
+.pay-method-icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:44px}
 .pay-method-name{font-weight:700;font-size:13px}
 .pay-method-sub{font-size:11px;color:var(--text3)}
 .coupon-wrap{display:flex;gap:8px}
@@ -416,6 +416,37 @@ body.en .co-change-btn{margin-right:0;margin-left:auto}
 .btn-complete:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(255,208,96,0.4)}
 .co-charity{text-align:center;padding:14px 0 4px;font-size:11px;color:var(--text3);line-height:1.8}
 .co-charity a{color:var(--blue);text-decoration:none}
+
+/* ===== POLICY MODALS ===== */
+.policy-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:950;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px)}
+.policy-overlay.open{display:flex}
+.policy-modal{background:#0C0F1A;border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:600px;max-height:86vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,0.75);animation:pmUp 0.22s ease}
+@keyframes pmUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.pm-header{padding:1.1rem 1.4rem;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:1rem}
+.pm-title-row{display:flex;align-items:center;gap:9px}
+.pm-icon-wrap{width:33px;height:33px;border-radius:9px;background:rgba(255,208,96,0.1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.pm-title-text{font-size:15px;font-weight:700;color:#F0F4FF;font-family:'Cairo','Tajawal',sans-serif}
+.pm-close{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);color:#555E78;width:30px;height:30px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all 0.18s;flex-shrink:0}
+.pm-close:hover{border-color:#FF4444;color:#FF4444;background:rgba(255,68,68,0.08)}
+.pm-body{overflow-y:auto;padding:1.4rem;flex:1;direction:rtl}
+.pm-body::-webkit-scrollbar{width:4px}
+.pm-body::-webkit-scrollbar-track{background:transparent}
+.pm-body::-webkit-scrollbar-thumb{background:#FFD060;border-radius:2px}
+.pm-sec{margin-bottom:1.4rem}
+.pm-sec:last-child{margin-bottom:0}
+.pm-sec-title{font-size:12.5px;font-weight:700;color:#FFD060;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.pm-sec-title::before{content:'';width:3px;height:13px;background:linear-gradient(180deg,#FFD060,#FF9500);border-radius:2px;display:block;flex-shrink:0}
+.pm-text{font-size:13px;color:#8B95B0;line-height:1.85}
+.pm-items{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.pm-item{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:#8B95B0;line-height:1.6}
+.pm-dot{width:5px;height:5px;border-radius:50%;background:#FFD060;flex-shrink:0;margin-top:7px}
+.pm-note{background:rgba(255,208,96,0.06);border:1px solid rgba(255,208,96,0.15);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#8B95B0;line-height:1.75;margin-top:10px}
+.pm-note strong{color:#FFD060}
+.pm-updated{text-align:center;font-size:11px;color:#2A3048;margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06)}
+.footer-policy-row{display:flex;align-items:center;justify-content:center;gap:4px 14px;flex-wrap:wrap;width:100%;padding-bottom:1rem;margin-bottom:0.5rem;border-bottom:1px solid var(--border)}
+.footer-policy-btn{background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;font-family:'Cairo','Tajawal',sans-serif;transition:color 0.18s;padding:2px 0}
+.footer-policy-btn:hover{color:var(--gold)}
+.footer-policy-sep{color:var(--border2);font-size:10px;user-select:none}
 
 /* ===== MOBILE ===== */
 @media(max-width:768px){
@@ -556,7 +587,7 @@ body.en .co-change-btn{margin-right:0;margin-left:auto}
     <div class="sec-head"><h2 class="sec-title" id="howTitle">كيف يعمل؟</h2></div>
     <div class="steps-grid">
       <div class="step-card"><div class="step-num">1</div><div class="step-icon">🛒</div><div class="step-t" id="st1">اختر السكن</div><div class="step-d" id="sd1">تصفح الكتالوج وأضف ما يعجبك للسلة بضغطة واحدة</div></div>
-      <div class="step-card"><div class="step-num">2</div><div class="step-icon">💳</div><div class="step-t" id="st2">ادفع بأمان</div><div class="step-d" id="sd2">مدى، فيزا، STC Pay، Apple Pay أو تحويل بنكي</div></div>
+      <div class="step-card"><div class="step-num">2</div><div class="step-icon">💳</div><div class="step-t" id="st2">ادفع بأمان</div><div class="step-d" id="sd2">STC Pay أو تحويل بنكي</div></div>
       <div class="step-card"><div class="step-num">3</div><div class="step-icon">📱</div><div class="step-t" id="st3">راسلنا واتساب</div><div class="step-d" id="sd3">بعد الدفع تواصل معنا ونبدأ بتجهيز طلبك فوراً</div></div>
       <div class="step-card"><div class="step-num">4</div><div class="step-icon">⚡</div><div class="step-t" id="st4">استلم فوري</div><div class="step-d" id="sd4">يصلك السكن في حسابك خلال 5 دقائق إلى 24 ساعة</div></div>
     </div>
@@ -584,7 +615,7 @@ body.en .co-change-btn{margin-right:0;margin-left:auto}
       <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span id="fq1">كيف يتم استلام الطلب؟</span><span class="faq-arr">▼</span></div><div class="faq-a" id="fa1">بعد الطلب سنتواصل معك عبر واتساب على رقمك المسجل ونرسل لك تفاصيل السكن وخطوات إضافته لحسابك.</div></div>
       <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span id="fq2">كم مدة التسليم؟</span><span class="faq-arr">▼</span></div><div class="faq-a" id="fa2">من 5 دقائق إلى 24 ساعة كحد أقصى حسب وقت الطلب وضغط المتجر.</div></div>
       <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span id="fq3">هل يمكن استرجاع الطلب؟</span><span class="faq-arr">▼</span></div><div class="faq-a" id="fa3">لا يوجد استرجاع أو تبديل بعد تسليم الطلب. تأكد من اختيارك قبل الإتمام.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span id="fq4">ما طرق الدفع المتوفرة؟</span><span class="faq-arr">▼</span></div><div class="faq-a" id="fa4">مدى، فيزا، ماستركارد، STC Pay، Apple Pay، Google Pay، وتحويل بنكي مباشر.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span id="fq4">ما طرق الدفع المتوفرة؟</span><span class="faq-arr">▼</span></div><div class="faq-a" id="fa4">STC Pay وتحويل بنكي مباشر.</div></div>
       <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span id="fq5">هل المتجر موثوق؟</span><span class="faq-arr">▼</span></div><div class="faq-a" id="fa5">نعم! لدينا أكثر من 2000 تقييم إيجابي وعملاء راضون. تجربتك معنا مضمونة 100%.</div></div>
     </div>
   </div>
@@ -595,9 +626,7 @@ body.en .co-change-btn{margin-right:0;margin-left:auto}
   <div class="wrap">
     <p class="pay-title" id="payTitle">طرق الدفع المتاحة</p>
     <div class="pay-logos">
-      <div class="pay-badge">💳 مدى</div>
       <div class="pay-badge">📱 STC Pay</div>
-      <div class="pay-badge">🔵 Google Pay</div>
       <div class="pay-badge">🏦 تحويل بنكي</div>
     </div>
   </div>
@@ -647,6 +676,13 @@ body.en .co-change-btn{margin-right:0;margin-left:auto}
       </div>
     </div>
     <div class="footer-bottom">
+      <div class="footer-policy-row">
+        <button class="footer-policy-btn" onclick="openPolicy('privacy')">🔒 سياسة الخصوصية</button>
+        <span class="footer-policy-sep">•</span>
+        <button class="footer-policy-btn" onclick="openPolicy('terms')">📋 الشروط والأحكام</button>
+        <span class="footer-policy-sep">•</span>
+        <button class="footer-policy-btn" onclick="openPolicy('refund')">↩️ سياسة الاسترداد</button>
+      </div>
       <span class="footer-copy" id="fCopy">© 2026 NEXUS STORE — جميع الحقوق محفوظة</span>
       <span class="footer-copy" id="fDisc">غير رسمي • ليس تابعاً لـ Epic Games</span>
     </div>
@@ -723,19 +759,36 @@ body.en .co-change-btn{margin-right:0;margin-left:auto}
       <div class="co-card">
         <div class="co-card-head">💳 <span id="coPayTitle">الدفع</span></div>
         <div class="pay-methods">
+          <!-- STC Pay -->
           <label class="pay-method selected" onclick="selectPayMethod(this)">
-            <input type="radio" name="payMethod" value="mada" checked/>
-            <span class="pay-method-icon">🏧</span>
-            <div><div class="pay-method-name">مدى</div><div class="pay-method-sub">Mada</div></div>
-          </label>
-          <label class="pay-method" onclick="selectPayMethod(this)">
-            <input type="radio" name="payMethod" value="stc"/>
-            <span class="pay-method-icon">📱</span>
+            <input type="radio" name="payMethod" value="stc" checked/>
+            <span class="pay-method-icon">
+              <svg viewBox="0 0 36 36" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+                <defs><clipPath id="coStcClip"><rect width="36" height="36" rx="8"/></clipPath></defs>
+                <g clip-path="url(#coStcClip)">
+                  <rect width="36" height="18" fill="#3E1870"/>
+                  <rect y="18" width="36" height="18" fill="#12B28C"/>
+                </g>
+                <text x="18" y="13" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="'Inter',sans-serif" letter-spacing="1">stc</text>
+                <text x="18" y="29" text-anchor="middle" fill="white" font-size="11" font-weight="800" font-family="'Inter',sans-serif">pay</text>
+              </svg>
+            </span>
             <div><div class="pay-method-name">STC Pay</div></div>
           </label>
+          <!-- Bank Transfer -->
           <label class="pay-method" onclick="selectPayMethod(this)">
             <input type="radio" name="payMethod" value="transfer"/>
-            <span class="pay-method-icon">🏦</span>
+            <span class="pay-method-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="3,10 12,3 21,10"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <line x1="5" y1="10" x2="5" y2="19"/>
+                <line x1="9" y1="10" x2="9" y2="19"/>
+                <line x1="15" y1="10" x2="15" y2="19"/>
+                <line x1="19" y1="10" x2="19" y2="19"/>
+                <line x1="3" y1="19" x2="21" y2="19"/>
+              </svg>
+            </span>
             <div><div class="pay-method-name" id="coTransferName">تحويل بنكي</div></div>
           </label>
         </div>
@@ -773,10 +826,6 @@ body.en .co-change-btn{margin-right:0;margin-left:auto}
           <span class="summary-total-val"><span id="coSumTotalVal">0</span> <span class="summary-total-sym">V-Bucks</span></span>
         </div>
         <button class="btn-complete" onclick="completeOrder()" id="coCompleteBtn">اتمام الطلب</button>
-        <div class="co-charity" id="coCharity">
-          مع كل طلب لك نصيب من الخير<br/>
-          <a href="#">سنتبرع بجزء من قيمة طلبك لجمعية ركن الحوار</a>
-        </div>
       </div>
     </div>
   </div>
@@ -823,6 +872,145 @@ body.en .co-change-btn{margin-right:0;margin-left:auto}
       <input class="auth-input" id="authPassInput" type="password" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')doEmailRegister()"/>
       <button class="btn-auth-gold" id="authRegisterBtn" onclick="doEmailRegister()">إنشاء حساب</button>
       <div class="auth-switch"><span id="authHaveAcc">لديك حساب؟ </span><a onclick="switchToPhone()" id="authSignInLink">تسجيل الدخول</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- POLICY MODALS -->
+<div class="policy-overlay" id="policyOverlay" onclick="if(event.target===this)closePolicy()">
+  <div class="policy-modal">
+    <div class="pm-header">
+      <div class="pm-title-row">
+        <div class="pm-icon-wrap" id="pmIconEl">📋</div>
+        <span class="pm-title-text" id="pmTitleEl">السياسة</span>
+      </div>
+      <button class="pm-close" onclick="closePolicy()" aria-label="إغلاق">✕</button>
+    </div>
+    <div class="pm-body" id="pmBody">
+
+      <!-- PRIVACY -->
+      <div id="pm-privacy" style="display:none">
+        <div class="pm-sec">
+          <div class="pm-sec-title">البيانات التي نجمعها</div>
+          <div class="pm-items">
+            <div class="pm-item"><span class="pm-dot"></span>الاسم ورقم الجوال والبريد الإلكتروني عند إنشاء الحساب</div>
+            <div class="pm-item"><span class="pm-dot"></span>معرّف حساب فورتنايت لإتمام تسليم المنتجات</div>
+            <div class="pm-item"><span class="pm-dot"></span>بيانات الدفع تُعالَج عبر بوابات معتمدة ولا تُخزَّن لدينا</div>
+            <div class="pm-item"><span class="pm-dot"></span>بيانات التصفح والجلسة لتحسين تجربة الموقع</div>
+          </div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">كيف نستخدم بياناتك</div>
+          <div class="pm-items">
+            <div class="pm-item"><span class="pm-dot"></span>معالجة طلباتك وتسليمها لحساب فورتنايت</div>
+            <div class="pm-item"><span class="pm-dot"></span>التواصل معك بشأن الطلبات عبر واتساب</div>
+            <div class="pm-item"><span class="pm-dot"></span>تحسين تجربة المتجر وتقديم عروض مخصّصة</div>
+            <div class="pm-item"><span class="pm-dot"></span>الامتثال للمتطلبات القانونية في المملكة العربية السعودية</div>
+          </div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">حقوقك كمستخدم</div>
+          <div class="pm-text">تحق لك الاطلاع على بياناتك وتصحيحها وحذفها والاعتراض على استخدامها في أي وقت وفق نظام حماية البيانات الشخصية السعودي.</div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">الأمان والخصوصية</div>
+          <div class="pm-text">نستخدم تشفير SSL وبوابات دفع بمعيار PCI-DSS. لا نبيع بياناتك لأي طرف ثالث تحت أي ظرف.</div>
+        </div>
+        <div class="pm-note">
+          <strong>للتواصل:</strong> راسلنا عبر واتساب أو البريد الإلكتروني وسنرد خلال ٧ أيام عمل.<br>
+          <a href="privacy-policy.html" style="color:#3B9EFF;text-decoration:none;font-size:12px" target="_blank">← قراءة السياسة الكاملة</a>
+        </div>
+        <div class="pm-updated">آخر تحديث: ١ يونيو ٢٠٢٦ — NEXUS STORE</div>
+      </div>
+
+      <!-- TERMS -->
+      <div id="pm-terms" style="display:none">
+        <div class="pm-sec">
+          <div class="pm-sec-title">قبول الشروط</div>
+          <div class="pm-text">باستخدامك لموقع NEXUS STORE أو إتمامك لأي عملية شراء، فإنك تُقرّ بموافقتك على هذه الشروط كاملةً. إن لم توافق عليها، يرجى التوقف عن استخدام الموقع.</div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">الخدمة المقدمة</div>
+          <div class="pm-text">NEXUS STORE متجر إلكتروني لبيع سكنات وعناصر لعبة فورتنايت. نحن غير رسميين وغير تابعين لشركة Epic Games. تُسلَّم المنتجات رقمياً لحسابك عبر واتساب.</div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">أهلية المستخدم</div>
+          <div class="pm-items">
+            <div class="pm-item"><span class="pm-dot"></span>يجب أن يكون عمرك ١٣ سنة فأكثر لاستخدام الموقع</div>
+            <div class="pm-item"><span class="pm-dot"></span>القاصرون دون ١٨ سنة يحتاجون لموافقة ولي الأمر</div>
+            <div class="pm-item"><span class="pm-dot"></span>يجب أن تكون المعلومات التي تقدمها صحيحة ودقيقة</div>
+          </div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">الأسعار والدفع</div>
+          <div class="pm-items">
+            <div class="pm-item"><span class="pm-dot"></span>جميع الأسعار بالـ V-Bucks وقد تتغير دون إشعار مسبق</div>
+            <div class="pm-item"><span class="pm-dot"></span>الدفع عبر STC Pay أو تحويل بنكي</div>
+            <div class="pm-item"><span class="pm-dot"></span>الطلب مؤكَّد فقط بعد استلام الدفعة كاملةً</div>
+          </div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">التسليم</div>
+          <div class="pm-text">يتم التسليم خلال ٥ دقائق إلى ٢٤ ساعة من تأكيد الدفع. قد تتأخر الطلبات في أوقات الذروة. نتواصل معك عبر واتساب لإتمام التسليم.</div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">المحظورات</div>
+          <div class="pm-items">
+            <div class="pm-item"><span class="pm-dot"></span>إعادة بيع المنتجات المشتراة منا لأطراف ثالثة</div>
+            <div class="pm-item"><span class="pm-dot"></span>استخدام بطاقات مسروقة أو معلومات مزوّرة</div>
+            <div class="pm-item"><span class="pm-dot"></span>محاولة اختراق الموقع أو التلاعب بالأسعار</div>
+            <div class="pm-item"><span class="pm-dot"></span>إساءة استخدام خدمة العملاء أو التهديد</div>
+          </div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">إخلاء المسؤولية</div>
+          <div class="pm-text">لسنا مسؤولين عن أي خسارة ناجمة عن قرارات Epic Games المتعلقة باللعبة أو أي تغيير في سياساتها أو محتواها.</div>
+        </div>
+        <div class="pm-note">
+          <strong>القانون المطبّق:</strong> تخضع هذه الشروط لأنظمة المملكة العربية السعودية. يختص القضاء السعودي بالنظر في أي نزاع ينشأ عنها.
+        </div>
+        <div class="pm-updated">آخر تحديث: ١ يونيو ٢٠٢٦ — NEXUS STORE</div>
+      </div>
+
+      <!-- REFUND -->
+      <div id="pm-refund" style="display:none">
+        <div class="pm-sec">
+          <div class="pm-sec-title">السياسة العامة</div>
+          <div class="pm-text">نظراً لطبيعة المنتجات الرقمية، <strong style="color:#F0F4FF">لا يمكن استرداد أو استبدال</strong> السكنات والعناصر بعد تسليمها لحساب فورتنايت. يرجى التحقق من اختيارك بعناية قبل إتمام الشراء.</div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">حالات الاسترداد الاستثنائية</div>
+          <div class="pm-text">نلتزم بحق الاسترداد في هذه الحالات فقط:</div>
+          <div class="pm-items">
+            <div class="pm-item"><span class="pm-dot"></span>عدم استلام المنتج بعد ٤٨ ساعة من تأكيد الدفع</div>
+            <div class="pm-item"><span class="pm-dot"></span>تسليم منتج مختلف تماماً عمّا تم طلبه وشراؤه</div>
+            <div class="pm-item"><span class="pm-dot"></span>تكرار الخصم من حسابك البنكي لنفس الطلب</div>
+            <div class="pm-item"><span class="pm-dot"></span>خلل تقني من طرفنا أدى لعدم اكتمال التسليم</div>
+          </div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">حالات لا يُقبل فيها الاسترداد</div>
+          <div class="pm-items">
+            <div class="pm-item"><span class="pm-dot"></span>تغيير رأيك بعد التسليم الصحيح للمنتج</div>
+            <div class="pm-item"><span class="pm-dot"></span>شراء منتج خاطئ بسبب عدم قراءة وصف المنتج</div>
+            <div class="pm-item"><span class="pm-dot"></span>قرارات Epic Games التي تؤثر على اللعبة أو المنتج</div>
+            <div class="pm-item"><span class="pm-dot"></span>انتهاك شروط اللعبة من قِبل المستخدم</div>
+          </div>
+        </div>
+        <div class="pm-sec">
+          <div class="pm-sec-title">كيفية طلب الاسترداد</div>
+          <div class="pm-items">
+            <div class="pm-item"><span class="pm-dot"></span>تواصل معنا عبر واتساب خلال ٢٤ ساعة من الطلب</div>
+            <div class="pm-item"><span class="pm-dot"></span>أرسل رقم الطلب وصورة الفاتورة وتفاصيل المشكلة</div>
+            <div class="pm-item"><span class="pm-dot"></span>يُعاد المبلغ خلال ٥-١٠ أيام عمل بعد الموافقة</div>
+          </div>
+        </div>
+        <div class="pm-note">
+          <strong>توصيتنا:</strong> فريقنا متاح ٢٤/٧ على واتساب للإجابة على أي سؤال قبل إتمام الشراء. لا تتردد في التواصل معنا!
+        </div>
+        <div class="pm-updated">آخر تحديث: ١ يونيو ٢٠٢٦ — NEXUS STORE</div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -897,7 +1085,7 @@ const TR = {
     fSub:'أقوى حزمة في التاريخ. السكن + الظهر + المعول + الطلقات.',fBtn:'أضف للسلة',
     howTitle:'كيف يعمل؟',
     st1:'اختر السكن',sd1:'تصفح الكتالوج وأضف ما يعجبك للسلة بضغطة واحدة',
-    st2:'ادفع بأمان',sd2:'مدى، STC Pay، Google Pay أو تحويل بنكي',
+    st2:'ادفع بأمان',sd2:'STC Pay أو تحويل بنكي',
     st3:'راسلنا واتساب',sd3:'بعد الدفع تواصل معنا ونبدأ بتجهيز طلبك فوراً',
     st4:'استلم فوري',sd4:'يصلك السكن في حسابك خلال 5 دقائق إلى 24 ساعة',
     revTitle:'آراء العملاء',
@@ -908,7 +1096,7 @@ const TR = {
     fq1:'كيف يتم استلام الطلب؟',fa1:'بعد الطلب سنتواصل معك عبر واتساب على رقمك المسجل ونرسل لك تفاصيل السكن وخطوات إضافته لحسابك.',
     fq2:'كم مدة التسليم؟',fa2:'من 5 دقائق إلى 24 ساعة كحد أقصى حسب وقت الطلب وضغط المتجر.',
     fq3:'هل يمكن استرجاع الطلب؟',fa3:'لا يوجد استرجاع أو تبديل بعد تسليم الطلب. تأكد من اختيارك قبل الإتمام.',
-    fq4:'ما طرق الدفع المتوفرة؟',fa4:'مدى، STC Pay، Google Pay، وتحويل بنكي مباشر.',
+    fq4:'ما طرق الدفع المتوفرة؟',fa4:'STC Pay وتحويل بنكي مباشر.',
     fq5:'هل المتجر موثوق؟',fa5:'نعم! لدينا أكثر من 2000 تقييم إيجابي وعملاء راضون. تجربتك معنا مضمونة 100%.',
     payTitle:'طرق الدفع المتاحة',
     tr1:'+2000 تقييم موثوق',tr2:'توصيل فوري',tr3:'دفع آمن 100%',tr4:'دعم واتساب 24/7',
@@ -935,7 +1123,7 @@ const TR = {
     fSub:'The most powerful bundle ever. Skin + Back Bling + Pickaxe + Glider.',fBtn:'Add to Cart',
     howTitle:'How It Works',
     st1:'Choose Your Skin',sd1:'Browse the catalog and add your favorite skin in one click',
-    st2:'Pay Securely',sd2:'Mada, STC Pay, Google Pay or bank transfer',
+    st2:'Pay Securely',sd2:'STC Pay or bank transfer',
     st3:'Message on WhatsApp',sd3:'After payment, contact us and we\'ll prepare your order',
     st4:'Instant Delivery',sd4:'Skin delivered to your account in 5 minutes to 24 hours',
     revTitle:'Customer Reviews',
@@ -946,7 +1134,7 @@ const TR = {
     fq1:'How do I receive my order?',fa1:'After your order, our team will contact you via WhatsApp with the skin details and steps to add it to your account.',
     fq2:'How long does delivery take?',fa2:'From 5 minutes to 24 hours maximum depending on order time and store load.',
     fq3:'Can I return my order?',fa3:'No returns or exchanges after order delivery. Please confirm your choice before completing.',
-    fq4:'What payment methods are available?',fa4:'Mada, STC Pay, Google Pay, and direct bank transfer.',
+    fq4:'What payment methods are available?',fa4:'STC Pay and direct bank transfer.',
     fq5:'Is this store trusted?',fa5:'Yes! We have 2000+ positive reviews and satisfied customers. Your experience is 100% guaranteed.',
     payTitle:'Available Payment Methods',
     tr1:'+2000 Verified Reviews',tr2:'Instant Delivery',tr3:'100% Secure Payment',tr4:'24/7 WhatsApp Support',
@@ -1261,7 +1449,6 @@ function applyCheckoutLang(){
   document.getElementById('coSumDiscount').textContent=en?'Coupon Discount':'خصم الكوبون';
   document.getElementById('coSumTotal').textContent=en?'Total':'الإجمالي';
   document.getElementById('coCompleteBtn').textContent=en?'Complete Order':'اتمام الطلب';
-  document.getElementById('coCharity').innerHTML=en?'Every order includes a charity donation<br/><a href="#">We donate part of your order to a charitable cause</a>':'مع كل طلب لك نصيب من الخير<br/><a href="#">سنتبرع بجزء من قيمة طلبك لجمعية ركن الحوار</a>';
   if(checkoutCart.length) renderCheckout();
 }
 
@@ -1388,6 +1575,25 @@ document.addEventListener('click',function(e){
     if(s){currentUser=JSON.parse(s);updateAuthUI();}
   }catch(e){}
 })();
+
+// ===== POLICY MODALS =====
+function openPolicy(type){
+  var icons={privacy:'🔒',terms:'📋',refund:'↩️'};
+  var titles={privacy:'سياسة الخصوصية',terms:'الشروط والأحكام',refund:'سياسة الاسترداد'};
+  document.getElementById('pmIconEl').textContent=icons[type]||'📋';
+  document.getElementById('pmTitleEl').textContent=titles[type]||'';
+  ['privacy','terms','refund'].forEach(function(t){
+    document.getElementById('pm-'+t).style.display=t===type?'block':'none';
+  });
+  document.getElementById('policyOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('pmBody').scrollTop=0;
+}
+function closePolicy(){
+  document.getElementById('policyOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePolicy();});
 
 // ===== INIT =====
 renderProducts();
