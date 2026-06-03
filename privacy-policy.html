@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>سياسة الخصوصية — NEXUS STORE</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#07080F;
+  --bg2:#0C0F1A;
+  --bg3:#111626;
+  --bg4:#161C30;
+  --card:#0E1220;
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);
+  --text:#F0F4FF;
+  --text2:#8B95B0;
+  --text3:#555E78;
+  --gold:#FFD060;
+  --gold2:#FF9500;
+  --blue:#3B9EFF;
+  --green:#00E676;
+  --red:#FF4444;
+  --purple:#A855F7;
+  --radius:16px;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* ── HEADER ── */
+.site-header{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(16px);
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--text);
+}
+.logo-mark{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.logo-name{
+  font-size:16px;font-weight:700;letter-spacing:1px;
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+}
+.back-btn{
+  display:flex;align-items:center;gap:7px;
+  color:var(--text2);font-size:13px;font-weight:500;
+  text-decoration:none;
+  background:var(--bg3);border:1px solid var(--border);
+  padding:7px 14px;border-radius:9px;transition:all 0.2s;
+}
+.back-btn:hover{border-color:var(--gold);color:var(--gold)}
+.back-btn svg{width:14px;height:14px;flex-shrink:0}
+
+/* ── HERO ── */
+.hero{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:3.5rem 2rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(59,158,255,0.08) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-dots{
+  position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px);
+  background-size:28px 28px;
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(59,158,255,0.1);
+  border:1px solid rgba(59,158,255,0.22);
+  color:var(--blue);
+  padding:5px 14px;border-radius:20px;
+  font-size:12px;font-weight:600;letter-spacing:0.5px;
+  margin-bottom:1.2rem;position:relative;
+}
+.badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--blue);animation:pulse 2s ease infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.hero h1{
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:700;line-height:1.2;
+  margin-bottom:0.8rem;position:relative;
+}
+.hero h1 span{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  color:var(--text2);font-size:14px;
+  max-width:520px;margin:0 auto 1.5rem;
+  position:relative;
+}
+.update-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--text3);font-size:12px;
+  padding:5px 14px;border-radius:20px;position:relative;
+}
+.update-pill svg{width:12px;height:12px;color:var(--green)}
+
+/* ── LAYOUT ── */
+.layout{
+  max-width:980px;margin:0 auto;
+  padding:3rem 1.5rem 5rem;
+  display:grid;
+  grid-template-columns:240px 1fr;
+  gap:2rem;
+  align-items:start;
+}
+
+/* ── SIDEBAR / TOC ── */
+.toc{
+  position:sticky;top:80px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.25rem;
+}
+.toc-title{
+  font-size:11px;font-weight:600;
+  color:var(--text3);letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+  padding-bottom:0.75rem;
+  border-bottom:1px solid var(--border);
+}
+.toc-list{display:flex;flex-direction:column;gap:2px}
+.toc-link{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;border-radius:9px;
+  color:var(--text2);font-size:12.5px;font-weight:500;
+  text-decoration:none;transition:all 0.18s;cursor:pointer;
+}
+.toc-link:hover{background:var(--bg3);color:var(--text)}
+.toc-link.active{background:rgba(255,208,96,0.08);color:var(--gold)}
+.toc-link svg{width:13px;height:13px;flex-shrink:0;opacity:0.6}
+.toc-link:hover svg,.toc-link.active svg{opacity:1}
+
+/* ── CONTENT ── */
+.content{display:flex;flex-direction:column;gap:10px}
+
+.section{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:border-color 0.2s;
+}
+.section:hover{border-color:var(--border2)}
+
+.section-head{
+  padding:1.25rem 1.5rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.section-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.ic-blue{background:rgba(59,158,255,0.12)}
+.ic-gold{background:rgba(255,208,96,0.1)}
+.ic-green{background:rgba(0,230,118,0.1)}
+.ic-purple{background:rgba(168,85,247,0.1)}
+.ic-red{background:rgba(255,68,68,0.1)}
+.ic-teal{background:rgba(0,188,212,0.1)}
+.ic-orange{background:rgba(255,149,0,0.12)}
+
+.section-title{
+  font-size:16px;font-weight:700;
+  flex:1;
+}
+.section-num{
+  font-size:11px;font-weight:600;
+  color:var(--text3);letter-spacing:1px;
+  background:var(--bg3);
+  padding:3px 9px;border-radius:20px;
+  border:1px solid var(--border);
+  flex-shrink:0;
+}
+
+.section-body{padding:1.5rem}
+
+p{color:var(--text2);font-size:14px;line-height:1.9;margin-bottom:1rem}
+p:last-child{margin-bottom:0}
+
+/* ── LIST ── */
+.policy-list{
+  display:flex;flex-direction:column;gap:8px;
+  margin:1rem 0;
+}
+.policy-list:last-child{margin-bottom:0}
+.list-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 14px;
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  font-size:13.5px;color:var(--text2);
+  line-height:1.6;
+  transition:border-color 0.15s;
+}
+.list-item:hover{border-color:var(--border2)}
+.list-dot{
+  width:7px;height:7px;border-radius:50%;
+  flex-shrink:0;margin-top:6px;
+}
+.dot-gold{background:var(--gold)}
+.dot-blue{background:var(--blue)}
+.dot-green{background:var(--green)}
+.dot-purple{background:var(--purple)}
+.dot-red{background:var(--red)}
+
+/* ── 2-COL GRID ── */
+.two-col{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin:1rem 0;
+}
+.two-col:last-child{margin-bottom:0}
+
+/* ── HIGHLIGHT CARD ── */
+.highlight{
+  background:rgba(255,208,96,0.05);
+  border:1px solid rgba(255,208,96,0.18);
+  border-radius:12px;
+  padding:1rem 1.25rem;
+  font-size:13.5px;color:var(--text);
+  line-height:1.7;margin:1rem 0;
+}
+.highlight:last-child{margin-bottom:0}
+.highlight strong{color:var(--gold)}
+
+.highlight-blue{
+  background:rgba(59,158,255,0.05);
+  border-color:rgba(59,158,255,0.18);
+}
+.highlight-blue strong{color:var(--blue)}
+
+.highlight-green{
+  background:rgba(0,230,118,0.05);
+  border-color:rgba(0,230,118,0.18);
+}
+.highlight-green strong{color:var(--green)}
+
+/* ── COOKIE TABLE ── */
+.cookie-table{
+  width:100%;border-collapse:collapse;
+  margin:1rem 0;font-size:13px;
+}
+.cookie-table:last-child{margin-bottom:0}
+.cookie-table th{
+  background:var(--bg3);color:var(--text2);
+  font-weight:600;font-size:12px;letter-spacing:0.5px;
+  padding:10px 14px;text-align:right;
+  border-bottom:1px solid var(--border2);
+}
+.cookie-table td{
+  padding:10px 14px;color:var(--text2);
+  border-bottom:1px solid var(--border);
+  vertical-align:top;line-height:1.5;
+}
+.cookie-table tr:last-child td{border-bottom:none}
+.cookie-table tr:hover td{background:var(--bg2)}
+.badge-type{
+  display:inline-block;font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:5px;
+  letter-spacing:0.5px;
+}
+.badge-essential{background:rgba(0,230,118,0.15);color:var(--green)}
+.badge-analytics{background:rgba(59,158,255,0.15);color:var(--blue)}
+.badge-marketing{background:rgba(168,85,247,0.15);color:var(--purple)}
+
+/* ── RIGHTS CARDS ── */
+.rights-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin:0.5rem 0;
+}
+.right-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:1rem;
+  display:flex;flex-direction:column;gap:6px;
+  transition:border-color 0.18s;
+}
+.right-card:hover{border-color:var(--border2)}
+.right-icon{font-size:22px}
+.right-title{font-size:13px;font-weight:700;color:var(--text)}
+.right-desc{font-size:12px;color:var(--text3);line-height:1.5}
+
+/* ── CONTACT SECTION ── */
+.contact-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin-top:0.5rem;
+}
+.contact-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:1rem 1.25rem;
+  display:flex;align-items:center;gap:12px;
+  text-decoration:none;transition:all 0.18s;
+}
+.contact-card:hover{border-color:var(--gold);transform:translateY(-1px)}
+.contact-card-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.contact-card-info{}
+.contact-card-label{font-size:11px;color:var(--text3);font-weight:500;margin-bottom:2px}
+.contact-card-val{font-size:13px;font-weight:600;color:var(--text)}
+
+/* ── DIVIDER ── */
+.divider{
+  height:1px;background:var(--border);
+  margin:1.25rem 0;
+}
+
+/* ── FOOTER ── */
+.page-footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:2rem;text-align:center;
+}
+.footer-logo{
+  font-size:18px;font-weight:700;
+  letter-spacing:1px;margin-bottom:8px;
+}
+.footer-logo span{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.footer-copy{font-size:12px;color:var(--text3);line-height:1.8}
+.footer-links{
+  display:flex;justify-content:center;gap:1.5rem;
+  margin:1rem 0;flex-wrap:wrap;
+}
+.footer-links a{
+  color:var(--text3);font-size:12px;text-decoration:none;
+  transition:color 0.18s;
+}
+.footer-links a:hover{color:var(--gold)}
+
+/* ===== POLICY MODALS ===== */
+.policy-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:950;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px)}
+.policy-overlay.open{display:flex}
+.policy-modal{background:#0C0F1A;border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:600px;max-height:86vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,0.75);animation:pmUp 0.22s ease}
+@keyframes pmUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.pm-header{padding:1.1rem 1.4rem;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:1rem}
+.pm-title-row{display:flex;align-items:center;gap:9px}
+.pm-icon-wrap{width:33px;height:33px;border-radius:9px;background:rgba(255,208,96,0.1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.pm-title-text{font-size:15px;font-weight:700;color:#F0F4FF;font-family:'IBM Plex Sans Arabic',sans-serif}
+.pm-close{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);color:#555E78;width:30px;height:30px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all 0.18s;flex-shrink:0}
+.pm-close:hover{border-color:#FF4444;color:#FF4444;background:rgba(255,68,68,0.08)}
+.pm-body{overflow-y:auto;padding:1.4rem;flex:1;direction:rtl}
+.pm-body::-webkit-scrollbar{width:4px}
+.pm-body::-webkit-scrollbar-track{background:transparent}
+.pm-body::-webkit-scrollbar-thumb{background:#FFD060;border-radius:2px}
+.pm-sec{margin-bottom:1.4rem}
+.pm-sec:last-child{margin-bottom:0}
+.pm-sec-title{font-size:12.5px;font-weight:700;color:#FFD060;margin-bottom:8px;display:flex;align-items:center;gap:7px;font-family:'IBM Plex Sans Arabic',sans-serif}
+.pm-sec-title::before{content:'';width:3px;height:13px;background:linear-gradient(180deg,#FFD060,#FF9500);border-radius:2px;display:block;flex-shrink:0}
+.pm-text{font-size:13px;color:#8B95B0;line-height:1.85;font-family:'IBM Plex Sans Arabic',sans-serif}
+.pm-items{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.pm-item{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:#8B95B0;line-height:1.6;font-family:'IBM Plex Sans Arabic',sans-serif}
+.pm-dot{width:5px;height:5px;border-radius:50%;background:#FFD060;flex-shrink:0;margin-top:7px}
+.pm-note{background:rgba(255,208,96,0.06);border:1px solid rgba(255,208,96,0.15);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#8B95B0;line-height:1.75;margin-top:10px;font-family:'IBM Plex Sans Arabic',sans-serif}
+.pm-note strong{color:#FFD060}
+.pm-updated{text-align:center;font-size:11px;color:#2A3048;margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);font-family:'IBM Plex Sans Arabic',sans-serif}
+.pp-policy-links{display:flex;align-items:center;justify-content:center;gap:4px 14px;flex-wrap:wrap;margin:0.75rem 0}
+.pp-policy-btn{background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;font-family:'IBM Plex Sans Arabic',sans-serif;transition:color 0.18s;padding:2px 0}
+.pp-policy-btn:hover{color:var(--gold)}
+.pp-policy-sep{color:var(--text3);font-size:10px;opacity:0.4;user-select:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr;padding:2rem 1rem 4rem}
+  .toc{position:static;display:none}
+  .rights-grid,.contact-grid,.two-col{grid-template-columns:1fr}
+  .hero{padding:2.5rem 1rem}
+  .site-header{padding:0 1rem}
+  .cookie-table th:nth-child(3),.cookie-table td:nth-child(3){display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a class="logo" href="index.html">
+    <div class="logo-mark">⚡</div>
+    <span class="logo-name">NEXUS STORE</span>
+  </a>
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/>
+    </svg>
+    العودة للمتجر
+  </a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-badge"><span class="badge-dot"></span> وثيقة قانونية رسمية</div>
+  <h1>سياسة <span>الخصوصية</span></h1>
+  <p class="hero-sub">نلتزم بحماية بياناتك الشخصية ونتعامل معها بمسؤولية كاملة وفق أعلى معايير الأمان</p>
+  <div class="update-pill">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+    </svg>
+    آخر تحديث: ١ يونيو ٢٠٢٦
+  </div>
+</section>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- TOC SIDEBAR -->
+  <nav class="toc" aria-label="فهرس المحتوى">
+    <div class="toc-title">فهرس المحتوى</div>
+    <div class="toc-list">
+      <a class="toc-link active" href="#intro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        المقدمة
+      </a>
+      <a class="toc-link" href="#collection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        البيانات التي نجمعها
+      </a>
+      <a class="toc-link" href="#usage">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        كيف نستخدم بياناتك
+      </a>
+      <a class="toc-link" href="#cookies">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/></svg>
+        ملفات الارتباط
+      </a>
+      <a class="toc-link" href="#sharing">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        مشاركة البيانات
+      </a>
+      <a class="toc-link" href="#rights">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        حقوق المستخدم
+      </a>
+      <a class="toc-link" href="#security">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        أمان البيانات
+      </a>
+      <a class="toc-link" href="#retention">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        مدة الاحتفاظ
+      </a>
+      <a class="toc-link" href="#contact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        تواصل معنا
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- 1. INTRO -->
+    <section class="section" id="intro">
+      <div class="section-head">
+        <div class="section-icon ic-blue">ℹ️</div>
+        <div class="section-title">المقدمة</div>
+        <span class="section-num">01</span>
+      </div>
+      <div class="section-body">
+        <p>
+          مرحباً بك في <strong style="color:var(--gold)">NEXUS STORE</strong>، المتجر الإلكتروني المتخصص في بيع سكنات وعناصر لعبة فورتنايت في المملكة العربية السعودية. نحرص على حماية خصوصيتك وأمان بياناتك الشخصية بأعلى المعايير.
+        </p>
+        <p>
+          تُوضّح هذه السياسة الطريقة التي نجمع بها معلوماتك، وكيف نستخدمها، ومع من قد نشاركها، وما هي حقوقك كمستخدم. باستخدامك لموقعنا أو خدماتنا، فإنك توافق على الشروط الواردة في هذه الوثيقة.
+        </p>
+        <div class="highlight">
+          <strong>ملاحظة مهمة:</strong> NEXUS STORE ليس تابعاً لشركة Epic Games ولا يمثّلها بأي شكل. جميع أسماء المنتجات وعلاماتها التجارية هي ملك لأصحابها.
+        </div>
+        <p>
+          تسري هذه السياسة على جميع مستخدمي الموقع الإلكتروني، سواء كانوا زواراً عاديين أو عملاء مسجّلين. إذا كان لديك أي استفسار، يُرجى التواصل معنا عبر القنوات الموضّحة في نهاية هذه الوثيقة.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. DATA COLLECTION -->
+    <section class="section" id="collection">
+      <div class="section-head">
+        <div class="section-icon ic-gold">🗄️</div>
+        <div class="section-title">البيانات التي نجمعها</div>
+        <span class="section-num">02</span>
+      </div>
+      <div class="section-body">
+        <p>نجمع أنواعاً مختلفة من البيانات بهدف تقديم أفضل تجربة تسوّق ممكنة وضمان أمان المعاملات.</p>
+
+        <div class="highlight-blue" style="margin-bottom:1rem">
+          <strong>أ — البيانات التي تقدّمها مباشرةً:</strong>
+        </div>
+        <div class="policy-list">
+          <div class="list-item"><span class="list-dot dot-gold"></span>الاسم الكامل أو اسم المستخدم عند إنشاء حساب</div>
+          <div class="list-item"><span class="list-dot dot-gold"></span>رقم الجوال المستخدم لتسجيل الدخول والتواصل</div>
+          <div class="list-item"><span class="list-dot dot-gold"></span>عنوان البريد الإلكتروني (عند استخدام خيار التسجيل بالبريد)</div>
+          <div class="list-item"><span class="list-dot dot-gold"></span>معرّف حساب فورتنايت الخاص بك لتسليم المنتجات</div>
+          <div class="list-item"><span class="list-dot dot-gold"></span>بيانات الدفع (لا نخزّنها — تُعالَج عبر بوابات دفع معتمدة)</div>
+          <div class="list-item"><span class="list-dot dot-gold"></span>رسائل التواصل عبر الواتساب أو البريد الإلكتروني</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="highlight-blue" style="margin-bottom:1rem">
+          <strong>ب — البيانات التي نجمعها تلقائياً:</strong>
+        </div>
+        <div class="policy-list">
+          <div class="list-item"><span class="list-dot dot-blue"></span>عنوان IP وبيانات الموقع الجغرافي التقريبي</div>
+          <div class="list-item"><span class="list-dot dot-blue"></span>نوع المتصفح ونظام التشغيل والجهاز المستخدم</div>
+          <div class="list-item"><span class="list-dot dot-blue"></span>الصفحات التي زرتها والمنتجات التي أضفتها للسلة</div>
+          <div class="list-item"><span class="list-dot dot-blue"></span>وقت وتاريخ الزيارة ومدة الجلسة</div>
+          <div class="list-item"><span class="list-dot dot-blue"></span>ملفات تعريف الارتباط (Cookies) وبيانات الجلسة</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. USAGE -->
+    <section class="section" id="usage">
+      <div class="section-head">
+        <div class="section-icon ic-purple">⚙️</div>
+        <div class="section-title">كيف نستخدم بياناتك</div>
+        <span class="section-num">03</span>
+      </div>
+      <div class="section-body">
+        <p>نستخدم بياناتك للأغراض المشروعة التالية حصراً:</p>
+        <div class="policy-list">
+          <div class="list-item"><span class="list-dot dot-purple"></span><div><strong style="color:var(--text)">معالجة الطلبات وتسليمها:</strong> استخدام بياناتك لإتمام عملية الشراء وإيصال المنتج لحسابك في فورتنايت</div></div>
+          <div class="list-item"><span class="list-dot dot-purple"></span><div><strong style="color:var(--text)">التواصل وخدمة العملاء:</strong> الرد على استفساراتك وحل المشكلات عبر واتساب أو البريد الإلكتروني</div></div>
+          <div class="list-item"><span class="list-dot dot-purple"></span><div><strong style="color:var(--text)">أمان الحساب:</strong> التحقق من هويتك ومنع الاحتيال وحماية بياناتك</div></div>
+          <div class="list-item"><span class="list-dot dot-purple"></span><div><strong style="color:var(--text)">تحسين الخدمة:</strong> تحليل سلوك المستخدمين لتطوير تجربة التسوّق وإضافة منتجات جديدة</div></div>
+          <div class="list-item"><span class="list-dot dot-purple"></span><div><strong style="color:var(--text)">الإشعارات والعروض:</strong> إبلاغك بالعروض والمنتجات الجديدة (يمكنك إلغاء الاشتراك في أي وقت)</div></div>
+          <div class="list-item"><span class="list-dot dot-purple"></span><div><strong style="color:var(--text)">الالتزامات القانونية:</strong> الامتثال لأنظمة المملكة العربية السعودية ومتطلبات الجهات الرقابية</div></div>
+        </div>
+        <div class="highlight" style="margin-top:1rem">
+          <strong>التزامنا:</strong> لن نستخدم بياناتك لأي غرض غير مذكور أعلاه دون الحصول على موافقتك المسبقة.
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. COOKIES -->
+    <section class="section" id="cookies">
+      <div class="section-head">
+        <div class="section-icon ic-teal">🍪</div>
+        <div class="section-title">ملفات تعريف الارتباط (Cookies)</div>
+        <span class="section-num">04</span>
+      </div>
+      <div class="section-body">
+        <p>
+          نستخدم ملفات تعريف الارتباط لتحسين تجربتك وتذكّر تفضيلاتك وتحليل أداء الموقع. هذه الملفات صغيرة الحجم وتُحفظ على جهازك.
+        </p>
+        <table class="cookie-table">
+          <thead>
+            <tr>
+              <th>نوع الملف</th>
+              <th>الغرض</th>
+              <th>مدة الصلاحية</th>
+              <th>الحالة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>الضرورية</strong><br/><small style="color:var(--text3)">Essential</small></td>
+              <td>تسجيل الدخول، السلة، بيانات الجلسة</td>
+              <td>خلال الجلسة</td>
+              <td><span class="badge-type badge-essential">إلزامية</span></td>
+            </tr>
+            <tr>
+              <td><strong>الأداء</strong><br/><small style="color:var(--text3)">Analytics</small></td>
+              <td>تحليل الزيارات وتحسين تجربة الموقع</td>
+              <td>١٢ شهراً</td>
+              <td><span class="badge-type badge-analytics">اختيارية</span></td>
+            </tr>
+            <tr>
+              <td><strong>التفضيلات</strong><br/><small style="color:var(--text3)">Preferences</small></td>
+              <td>تذكّر اللغة والوضع المظلم والتفضيلات</td>
+              <td>٦ أشهر</td>
+              <td><span class="badge-type badge-essential">إلزامية</span></td>
+            </tr>
+            <tr>
+              <td><strong>التسويق</strong><br/><small style="color:var(--text3)">Marketing</small></td>
+              <td>عرض إعلانات مخصصة وتتبّع الحملات</td>
+              <td>٣٠ يوماً</td>
+              <td><span class="badge-type badge-marketing">اختيارية</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="highlight-blue" style="margin-top:1rem">
+          <strong>تحكّم في ملفات الارتباط:</strong> يمكنك تعطيل ملفات الارتباط غير الضرورية من إعدادات متصفحك في أي وقت. لاحظ أن تعطيل الملفات الضرورية قد يؤثر على بعض وظائف الموقع.
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. SHARING -->
+    <section class="section" id="sharing">
+      <div class="section-head">
+        <div class="section-icon ic-orange">🔗</div>
+        <div class="section-title">مشاركة البيانات مع أطراف ثالثة</div>
+        <span class="section-num">05</span>
+      </div>
+      <div class="section-body">
+        <p>
+          نحن لا نبيع بياناتك الشخصية لأي طرف ثالث. قد نشارك بيانات محدودة في الحالات التالية فقط:
+        </p>
+        <div class="policy-list">
+          <div class="list-item">
+            <span class="list-dot dot-gold"></span>
+            <div>
+              <strong style="color:var(--text)">بوابات الدفع المعتمدة</strong><br/>
+              <span style="font-size:13px">مدى، STC Pay، Apple Pay — لمعالجة المدفوعات بأمان وفق معايير PCI-DSS</span>
+            </div>
+          </div>
+          <div class="list-item">
+            <span class="list-dot dot-blue"></span>
+            <div>
+              <strong style="color:var(--text)">مزودو خدمات التحليل</strong><br/>
+              <span style="font-size:13px">أدوات تحليل مجهولة الهوية لتحسين الموقع (لا تُشارَك بيانات تعريفية)</span>
+            </div>
+          </div>
+          <div class="list-item">
+            <span class="list-dot dot-red"></span>
+            <div>
+              <strong style="color:var(--text)">الجهات القانونية والرقابية</strong><br/>
+              <span style="font-size:13px">عند وجود أمر قضائي أو طلب رسمي من الجهات الحكومية السعودية</span>
+            </div>
+          </div>
+          <div class="list-item">
+            <span class="list-dot dot-green"></span>
+            <div>
+              <strong style="color:var(--text)">خدمات التواصل (واتساب)</strong><br/>
+              <span style="font-size:13px">رسائل خدمة العملاء — تخضع لسياسة خصوصية Meta/WhatsApp المستقلة</span>
+            </div>
+          </div>
+        </div>
+        <div class="highlight" style="margin-top:1rem">
+          <strong>ضمان الخصوصية:</strong> نُلزم جميع الأطراف الثالثة بمعايير حماية البيانات نفسها التي نطبّقها، وننهي التعاقد مع أي طرف لا يلتزم بذلك.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. USER RIGHTS -->
+    <section class="section" id="rights">
+      <div class="section-head">
+        <div class="section-icon ic-green">🛡️</div>
+        <div class="section-title">حقوق المستخدم</div>
+        <span class="section-num">06</span>
+      </div>
+      <div class="section-body">
+        <p>وفقاً لنظام حماية البيانات الشخصية السعودي، تتمتع بالحقوق التالية كاملةً:</p>
+        <div class="rights-grid">
+          <div class="right-card">
+            <div class="right-icon">👁️</div>
+            <div class="right-title">حق الاطلاع</div>
+            <div class="right-desc">طلب نسخة كاملة من بياناتك الشخصية المحفوظة لدينا في أي وقت</div>
+          </div>
+          <div class="right-card">
+            <div class="right-icon">✏️</div>
+            <div class="right-title">حق التصحيح</div>
+            <div class="right-desc">تعديل أي بيانات غير دقيقة أو ناقصة مرتبطة بحسابك</div>
+          </div>
+          <div class="right-card">
+            <div class="right-icon">🗑️</div>
+            <div class="right-title">حق الحذف</div>
+            <div class="right-desc">طلب حذف بياناتك الشخصية (مع استثناءات الالتزامات القانونية)</div>
+          </div>
+          <div class="right-card">
+            <div class="right-icon">⛔</div>
+            <div class="right-title">حق الاعتراض</div>
+            <div class="right-desc">الاعتراض على معالجة بياناتك لأغراض التسويق أو غيرها</div>
+          </div>
+          <div class="right-card">
+            <div class="right-icon">📦</div>
+            <div class="right-title">حق النقل</div>
+            <div class="right-desc">الحصول على بياناتك بصيغة قابلة للقراءة آلياً لنقلها لجهة أخرى</div>
+          </div>
+          <div class="right-card">
+            <div class="right-icon">🔕</div>
+            <div class="right-title">إلغاء الاشتراك</div>
+            <div class="right-desc">إلغاء اشتراكك في الرسائل التسويقية بضغطة واحدة في أي وقت</div>
+          </div>
+        </div>
+        <div class="highlight-green" style="margin-top:1rem">
+          <strong>كيف تمارس حقوقك؟</strong> تواصل معنا عبر واتساب أو البريد الإلكتروني المذكورَين في قسم "تواصل معنا" وسنرد خلال <strong>٧ أيام عمل</strong> على أقصى تقدير.
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. SECURITY -->
+    <section class="section" id="security">
+      <div class="section-head">
+        <div class="section-icon ic-blue">🔒</div>
+        <div class="section-title">أمان البيانات</div>
+        <span class="section-num">07</span>
+      </div>
+      <div class="section-body">
+        <p>
+          نُطبّق منظومة متكاملة من الإجراءات التقنية والتنظيمية لحماية بياناتك من الوصول غير المصرح به أو الفقدان أو التلف.
+        </p>
+        <div class="policy-list">
+          <div class="list-item"><span class="list-dot dot-blue"></span>تشفير الاتصالات بتقنية <strong style="color:var(--text)">SSL/TLS</strong> على كافة صفحات الموقع</div>
+          <div class="list-item"><span class="list-dot dot-blue"></span>معالجة بيانات الدفع عبر بوابات معتمدة بمعيار <strong style="color:var(--text)">PCI-DSS</strong> — لا نخزّن أرقام البطاقات</div>
+          <div class="list-item"><span class="list-dot dot-blue"></span>تقييد الوصول لبياناتك على موظفي NEXUS STORE الضروريين فقط</div>
+          <div class="list-item"><span class="list-dot dot-blue"></span>مراجعة دورية لممارسات الأمان وتحديث الأنظمة باستمرار</div>
+          <div class="list-item"><span class="list-dot dot-blue"></span>كلمات مرور مشفّرة — لا يمكن لأحد من فريقنا الاطلاع على كلمة مرورك</div>
+        </div>
+        <div class="highlight" style="margin-top:1rem">
+          <strong>في حال اختراق البيانات:</strong> سنُبلّغك فوراً خلال <strong>٧٢ ساعة</strong> من اكتشاف أي خرق قد يؤثر على بياناتك، وسنتخذ الإجراءات اللازمة للحدّ من الأضرار.
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. RETENTION -->
+    <section class="section" id="retention">
+      <div class="section-head">
+        <div class="section-icon ic-purple">⏱️</div>
+        <div class="section-title">مدة الاحتفاظ بالبيانات</div>
+        <span class="section-num">08</span>
+      </div>
+      <div class="section-body">
+        <p>نحتفظ ببياناتك فقط للمدة اللازمة لتحقيق الأغراض المذكورة في هذه السياسة، أو وفقاً للمتطلبات القانونية.</p>
+        <div class="policy-list">
+          <div class="list-item">
+            <span class="list-dot dot-gold"></span>
+            <div><strong style="color:var(--text)">بيانات الحساب:</strong> طوال فترة نشاط حسابك + ٩٠ يوماً بعد الحذف</div>
+          </div>
+          <div class="list-item">
+            <span class="list-dot dot-blue"></span>
+            <div><strong style="color:var(--text)">سجلات الطلبات والفواتير:</strong> ٥ سنوات (وفق متطلبات هيئة الزكاة والضريبة)</div>
+          </div>
+          <div class="list-item">
+            <span class="list-dot dot-green"></span>
+            <div><strong style="color:var(--text)">سجلات التواصل:</strong> سنتان من تاريخ آخر تواصل</div>
+          </div>
+          <div class="list-item">
+            <span class="list-dot dot-purple"></span>
+            <div><strong style="color:var(--text)">بيانات التصفح والتحليلات:</strong> ١٢ شهراً من تاريخ الجمع</div>
+          </div>
+        </div>
+        <p style="margin-top:1rem">بعد انتهاء مدة الاحتفاظ، يتم حذف بياناتك بصورة آمنة أو جعلها مجهولة الهوية بحيث لا يمكن ربطها بك.</p>
+      </div>
+    </section>
+
+    <!-- 9. CONTACT -->
+    <section class="section" id="contact">
+      <div class="section-head">
+        <div class="section-icon ic-green">💬</div>
+        <div class="section-title">تواصل معنا</div>
+        <span class="section-num">09</span>
+      </div>
+      <div class="section-body">
+        <p>
+          إذا كان لديك أي سؤال حول هذه السياسة، أو أردت ممارسة أي من حقوقك المذكورة أعلاه، فلا تتردد في التواصل معنا عبر القنوات التالية:
+        </p>
+        <div class="contact-grid">
+          <a class="contact-card" href="https://wa.me/YOUR_NUMBER" target="_blank">
+            <div class="contact-card-icon ic-green">📱</div>
+            <div class="contact-card-info">
+              <div class="contact-card-label">واتساب — الدعم الفوري</div>
+              <div class="contact-card-val">متاح ٢٤ / ٧</div>
+            </div>
+          </a>
+          <a class="contact-card" href="mailto:privacy@nexusstore.sa">
+            <div class="contact-card-icon ic-blue">📧</div>
+            <div class="contact-card-info">
+              <div class="contact-card-label">البريد الإلكتروني</div>
+              <div class="contact-card-val">privacy@nexusstore.sa</div>
+            </div>
+          </a>
+          <a class="contact-card" href="#">
+            <div class="contact-card-icon" style="background:rgba(29,161,242,0.1)">🐦</div>
+            <div class="contact-card-info">
+              <div class="contact-card-label">تويتر / X</div>
+              <div class="contact-card-val">@NexusStore_SA</div>
+            </div>
+          </a>
+          <div class="contact-card" style="cursor:default">
+            <div class="contact-card-icon ic-gold">🏢</div>
+            <div class="contact-card-info">
+              <div class="contact-card-label">وقت الاستجابة</div>
+              <div class="contact-card-val">خلال ٧ أيام عمل</div>
+            </div>
+          </div>
+        </div>
+        <div class="highlight" style="margin-top:1rem">
+          <strong>تحديثات السياسة:</strong> نحتفظ بحق تعديل هذه السياسة في أي وقت. سنُبلّغك بأي تغييرات جوهرية عبر البريد الإلكتروني أو واتساب قبل ٣٠ يوماً من تطبيقها. استمرارك في استخدام الموقع بعد التعديل يُعدّ قبولاً للسياسة الجديدة.
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <div class="footer-logo">⚡ <span>NEXUS STORE</span></div>
+  <div class="footer-links">
+    <a href="index.html">المتجر الرئيسي</a>
+    <a href="#">شروط الاستخدام</a>
+    <a href="privacy-policy.html">سياسة الخصوصية</a>
+    <a href="#">سياسة الاسترجاع</a>
+    <a href="https://wa.me/YOUR_NUMBER" target="_blank">تواصل معنا</a>
+  </div>
+  <div class="pp-policy-links">
+    <button class="pp-policy-btn" onclick="openPolicy('privacy')">🔒 سياسة الخصوصية</button>
+    <span class="pp-policy-sep">•</span>
+    <button class="pp-policy-btn" onclick="openPolicy('terms')">📋 الشروط والأحكام</button>
+    <span class="pp-policy-sep">•</span>
+    <button class="pp-policy-btn" onclick="openPolicy('refund')">↩️ سياسة الاسترداد</button>
+  </div>
+  <div class="footer-copy">
+    © ٢٠٢٦ NEXUS STORE — جميع الحقوق محفوظة<br/>
+    <span style="font-size:11px;color:var(--text3)">غير رسمي • ليس تابعاً لـ Epic Games • المملكة العربية السعودية</span>
+  </div>
+</footer>
+
+<!-- POLICY MODALS -->
+<div class="policy-overlay" id="policyOverlay" onclick="if(event.target===this)closePolicy()">
+  <div class="policy-modal">
+    <div class="pm-header">
+      <div class="pm-title-row">
+        <div class="pm-icon-wrap" id="pmIconEl">📋</div>
+        <span class="pm-title-text" id="pmTitleEl">السياسة</span>
+      </div>
+      <button class="pm-close" onclick="closePolicy()" aria-label="إغلاق">✕</button>
+    </div>
+    <div class="pm-body" id="pmBody">
+      <div id="pm-privacy" style="display:none">
+        <div class="pm-sec"><div class="pm-sec-title">البيانات التي نجمعها</div><div class="pm-items"><div class="pm-item"><span class="pm-dot"></span>الاسم ورقم الجوال والبريد الإلكتروني عند إنشاء الحساب</div><div class="pm-item"><span class="pm-dot"></span>معرّف حساب فورتنايت لإتمام تسليم المنتجات</div><div class="pm-item"><span class="pm-dot"></span>بيانات الدفع تُعالَج عبر بوابات معتمدة ولا تُخزَّن لدينا</div><div class="pm-item"><span class="pm-dot"></span>بيانات التصفح والجلسة لتحسين تجربة الموقع</div></div></div>
+        <div class="pm-sec"><div class="pm-sec-title">كيف نستخدم بياناتك</div><div class="pm-items"><div class="pm-item"><span class="pm-dot"></span>معالجة طلباتك وتسليمها لحساب فورتنايت</div><div class="pm-item"><span class="pm-dot"></span>التواصل معك بشأن الطلبات عبر واتساب</div><div class="pm-item"><span class="pm-dot"></span>تحسين تجربة المتجر وتقديم عروض مخصّصة</div><div class="pm-item"><span class="pm-dot"></span>الامتثال للمتطلبات القانونية في المملكة العربية السعودية</div></div></div>
+        <div class="pm-sec"><div class="pm-sec-title">حقوقك كمستخدم</div><div class="pm-text">تحق لك الاطلاع على بياناتك وتصحيحها وحذفها والاعتراض على استخدامها في أي وقت وفق نظام حماية البيانات الشخصية السعودي.</div></div>
+        <div class="pm-sec"><div class="pm-sec-title">الأمان والخصوصية</div><div class="pm-text">نستخدم تشفير SSL وبوابات دفع بمعيار PCI-DSS. لا نبيع بياناتك لأي طرف ثالث تحت أي ظرف.</div></div>
+        <div class="pm-note"><strong>للتواصل:</strong> راسلنا عبر واتساب أو البريد الإلكتروني وسنرد خلال ٧ أيام عمل.</div>
+        <div class="pm-updated">آخر تحديث: ١ يونيو ٢٠٢٦ — NEXUS STORE</div>
+      </div>
+      <div id="pm-terms" style="display:none">
+        <div class="pm-sec"><div class="pm-sec-title">قبول الشروط</div><div class="pm-text">باستخدامك لموقع NEXUS STORE أو إتمامك لأي عملية شراء، فإنك تُقرّ بموافقتك على هذه الشروط كاملةً. إن لم توافق عليها، يرجى التوقف عن استخدام الموقع.</div></div>
+        <div class="pm-sec"><div class="pm-sec-title">الخدمة المقدمة</div><div class="pm-text">NEXUS STORE متجر إلكتروني لبيع سكنات وعناصر لعبة فورتنايت. نحن غير رسميين وغير تابعين لشركة Epic Games. تُسلَّم المنتجات رقمياً لحسابك عبر واتساب.</div></div>
+        <div class="pm-sec"><div class="pm-sec-title">أهلية المستخدم</div><div class="pm-items"><div class="pm-item"><span class="pm-dot"></span>يجب أن يكون عمرك ١٣ سنة فأكثر لاستخدام الموقع</div><div class="pm-item"><span class="pm-dot"></span>القاصرون دون ١٨ سنة يحتاجون لموافقة ولي الأمر</div><div class="pm-item"><span class="pm-dot"></span>يجب أن تكون المعلومات التي تقدمها صحيحة ودقيقة</div></div></div>
+        <div class="pm-sec"><div class="pm-sec-title">الأسعار والدفع</div><div class="pm-items"><div class="pm-item"><span class="pm-dot"></span>جميع الأسعار بالـ V-Bucks وقد تتغير دون إشعار مسبق</div><div class="pm-item"><span class="pm-dot"></span>الدفع عبر مدى، STC Pay، Apple Pay أو تحويل بنكي</div><div class="pm-item"><span class="pm-dot"></span>الطلب مؤكَّد فقط بعد استلام الدفعة كاملةً</div></div></div>
+        <div class="pm-sec"><div class="pm-sec-title">التسليم</div><div class="pm-text">يتم التسليم خلال ٥ دقائق إلى ٢٤ ساعة من تأكيد الدفع. قد تتأخر الطلبات في أوقات الذروة. نتواصل معك عبر واتساب لإتمام التسليم.</div></div>
+        <div class="pm-sec"><div class="pm-sec-title">المحظورات</div><div class="pm-items"><div class="pm-item"><span class="pm-dot"></span>إعادة بيع المنتجات المشتراة منا لأطراف ثالثة</div><div class="pm-item"><span class="pm-dot"></span>استخدام بطاقات مسروقة أو معلومات مزوّرة</div><div class="pm-item"><span class="pm-dot"></span>محاولة اختراق الموقع أو التلاعب بالأسعار</div><div class="pm-item"><span class="pm-dot"></span>إساءة استخدام خدمة العملاء أو التهديد</div></div></div>
+        <div class="pm-sec"><div class="pm-sec-title">إخلاء المسؤولية</div><div class="pm-text">لسنا مسؤولين عن أي خسارة ناجمة عن قرارات Epic Games المتعلقة باللعبة أو أي تغيير في سياساتها أو محتواها.</div></div>
+        <div class="pm-note"><strong>القانون المطبّق:</strong> تخضع هذه الشروط لأنظمة المملكة العربية السعودية. يختص القضاء السعودي بالنظر في أي نزاع ينشأ عنها.</div>
+        <div class="pm-updated">آخر تحديث: ١ يونيو ٢٠٢٦ — NEXUS STORE</div>
+      </div>
+      <div id="pm-refund" style="display:none">
+        <div class="pm-sec"><div class="pm-sec-title">السياسة العامة</div><div class="pm-text">نظراً لطبيعة المنتجات الرقمية، <strong style="color:#F0F4FF">لا يمكن استرداد أو استبدال</strong> السكنات والعناصر بعد تسليمها لحساب فورتنايت. يرجى التحقق من اختيارك بعناية قبل إتمام الشراء.</div></div>
+        <div class="pm-sec"><div class="pm-sec-title">حالات الاسترداد الاستثنائية</div><div class="pm-text">نلتزم بحق الاسترداد في هذه الحالات فقط:</div><div class="pm-items"><div class="pm-item"><span class="pm-dot"></span>عدم استلام المنتج بعد ٤٨ ساعة من تأكيد الدفع</div><div class="pm-item"><span class="pm-dot"></span>تسليم منتج مختلف تماماً عمّا تم طلبه وشراؤه</div><div class="pm-item"><span class="pm-dot"></span>تكرار الخصم من حسابك البنكي لنفس الطلب</div><div class="pm-item"><span class="pm-dot"></span>خلل تقني من طرفنا أدى لعدم اكتمال التسليم</div></div></div>
+        <div class="pm-sec"><div class="pm-sec-title">حالات لا يُقبل فيها الاسترداد</div><div class="pm-items"><div class="pm-item"><span class="pm-dot"></span>تغيير رأيك بعد التسليم الصحيح للمنتج</div><div class="pm-item"><span class="pm-dot"></span>شراء منتج خاطئ بسبب عدم قراءة وصف المنتج</div><div class="pm-item"><span class="pm-dot"></span>قرارات Epic Games التي تؤثر على اللعبة أو المنتج</div><div class="pm-item"><span class="pm-dot"></span>انتهاك شروط اللعبة من قِبل المستخدم</div></div></div>
+        <div class="pm-sec"><div class="pm-sec-title">كيفية طلب الاسترداد</div><div class="pm-items"><div class="pm-item"><span class="pm-dot"></span>تواصل معنا عبر واتساب خلال ٢٤ ساعة من الطلب</div><div class="pm-item"><span class="pm-dot"></span>أرسل رقم الطلب وصورة الفاتورة وتفاصيل المشكلة</div><div class="pm-item"><span class="pm-dot"></span>يُعاد المبلغ خلال ٥-١٠ أيام عمل بعد الموافقة</div></div></div>
+        <div class="pm-note"><strong>توصيتنا:</strong> فريقنا متاح ٢٤/٧ على واتساب للإجابة على أي سؤال قبل إتمام الشراء. لا تتردد في التواصل معنا!</div>
+        <div class="pm-updated">آخر تحديث: ١ يونيو ٢٠٢٦ — NEXUS STORE</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== POLICY MODALS =====
+function openPolicy(type){
+  var icons={privacy:'🔒',terms:'📋',refund:'↩️'};
+  var titles={privacy:'سياسة الخصوصية',terms:'الشروط والأحكام',refund:'سياسة الاسترداد'};
+  document.getElementById('pmIconEl').textContent=icons[type]||'📋';
+  document.getElementById('pmTitleEl').textContent=titles[type]||'';
+  ['privacy','terms','refund'].forEach(function(t){
+    document.getElementById('pm-'+t).style.display=t===type?'block':'none';
+  });
+  document.getElementById('policyOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('pmBody').scrollTop=0;
+}
+function closePolicy(){
+  document.getElementById('policyOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePolicy();});
+
+// Active TOC highlight on scroll
+const sections = document.querySelectorAll('section[id]');
+const tocLinks = document.querySelectorAll('.toc-link');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// Smooth scroll for TOC links
+tocLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

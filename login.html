@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>تسجيل الدخول — NEXUS STORE</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#07080F;
+  --bg2:#0C0F1A;
+  --bg3:#111626;
+  --card:#0E1220;
+  --border:rgba(255,255,255,0.08);
+  --border-h:rgba(255,255,255,0.15);
+  --text:#F0F4FF;
+  --text2:#8B95B0;
+  --text3:#555E78;
+  --gold:#FFD060;
+  --gold2:#FF9500;
+  --red:#FF5252;
+  --green:#00E676;
+  --blue:#3B9EFF;
+  --r:16px;
+}
+
+html,body{min-height:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:1.5rem 1rem;
+  position:relative;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── Background ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:28px 28px;pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 15%,rgba(59,158,255,0.08),transparent),
+    radial-gradient(ellipse 50% 35% at 85% 85%,rgba(255,208,96,0.07),transparent);
+  pointer-events:none;z-index:0;
+}
+
+/* ── Top back link ── */
+.nav-back{
+  position:fixed;top:16px;right:16px;z-index:50;
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg2);border:1px solid var(--border);
+  color:var(--text3);font-size:12.5px;font-weight:600;
+  padding:7px 14px;border-radius:10px;
+  text-decoration:none;transition:all .2s;
+}
+.nav-back:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── Card ── */
+.card{
+  position:relative;z-index:1;
+  width:100%;max-width:420px;
+  background:var(--card);
+  border-radius:22px;
+  border:1px solid var(--border);
+  padding:2.4rem 2.1rem 2rem;
+  box-shadow:0 30px 80px rgba(0,0,0,0.65);
+  animation:fadeUp .4s cubic-bezier(.22,1,.36,1) both;
+}
+/* gold stripe on top */
+.card::before{
+  content:'';position:absolute;
+  top:-1px;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),transparent);
+  border-radius:2px;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── Logo ── */
+.logo{text-align:center;margin-bottom:1.8rem}
+.logo-icon{
+  width:56px;height:56px;border-radius:15px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:28px;margin-bottom:.75rem;
+  box-shadow:0 6px 28px rgba(255,208,96,.3);
+}
+.logo-name{
+  font-family:'Orbitron',sans-serif;font-size:19px;
+  font-weight:900;letter-spacing:2px;display:block;margin-bottom:4px;
+}
+.logo-tag{font-size:12px;color:var(--text3);display:block}
+
+/* ── Alerts ── */
+.alert{
+  display:none;align-items:flex-start;gap:9px;
+  padding:11px 14px;border-radius:11px;
+  font-size:13px;line-height:1.65;margin-bottom:1.1rem;
+}
+.alert.show{display:flex}
+.alert.err{background:rgba(255,82,82,.1);border:1px solid rgba(255,82,82,.22);color:#FF8A8A}
+.alert.ok {background:rgba(0,230,118,.09);border:1px solid rgba(0,230,118,.2);color:var(--green)}
+.alert-ico{flex-shrink:0;font-size:14px;margin-top:1px}
+
+/* ── Tabs ── */
+.tabs{
+  display:flex;gap:3px;background:var(--bg3);
+  border:1px solid var(--border);border-radius:13px;
+  padding:4px;margin-bottom:1.9rem;
+}
+.tab-btn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 8px;border-radius:10px;cursor:pointer;
+  font-size:13px;font-weight:600;color:var(--text3);
+  border:none;background:transparent;
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  transition:all .22s;white-space:nowrap;
+}
+.tab-btn svg{width:14px;height:14px;flex-shrink:0;stroke:currentColor}
+.tab-btn.on{
+  background:var(--card);color:var(--gold);
+  box-shadow:0 2px 10px rgba(0,0,0,.45);
+}
+
+/* ── Views ── */
+.view{display:none;animation:fadeUp .25s ease}
+.view.on{display:block}
+
+/* ── Section step ── */
+.step{transition:all .2s}
+.step.hidden{display:none}
+
+/* ── Labels ── */
+.lbl{
+  display:block;font-size:12px;font-weight:600;
+  color:var(--text2);margin-bottom:7px;letter-spacing:.2px;
+}
+
+/* ── Input group (prefix) ── */
+.in-group{
+  display:flex;border:1.5px solid var(--border-h);
+  border-radius:12px;overflow:hidden;background:var(--bg3);
+  margin-bottom:1rem;transition:border-color .2s;
+}
+.in-group:focus-within{border-color:var(--gold)}
+.in-prefix{
+  padding:0 13px;font-size:13px;font-weight:700;
+  color:var(--text2);background:var(--bg2);
+  border-left:1px solid var(--border-h);flex-shrink:0;
+  display:flex;align-items:center;gap:5px;white-space:nowrap;
+}
+.in-field{
+  flex:1;background:transparent;border:none;outline:none;
+  padding:13px 14px;font-size:14px;color:var(--text);
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+}
+.in-field::placeholder{color:var(--text3)}
+.ltr{direction:ltr;text-align:left}
+
+/* ── Standalone input ── */
+.inp{
+  width:100%;background:var(--bg3);
+  border:1.5px solid var(--border-h);border-radius:12px;
+  padding:13px 14px;font-size:14px;color:var(--text);
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  outline:none;transition:border-color .2s;margin-bottom:.9rem;
+  display:block;
+}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--text3)}
+.inp.err-field{border-color:var(--red)!important}
+
+/* ── Password row ── */
+.pw-wrap{position:relative;margin-bottom:.9rem}
+.pw-wrap .inp{margin-bottom:0;padding-left:46px}
+.eye{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:var(--text3);cursor:pointer;
+  display:flex;align-items:center;padding:4px;transition:color .18s;
+}
+.eye:hover{color:var(--gold)}
+.eye svg{width:18px;height:18px;stroke:currentColor}
+
+/* ── OTP boxes ── */
+.otp-hint{
+  font-size:13px;color:var(--text2);margin-bottom:1rem;line-height:1.6;
+}
+.otp-hint strong{color:var(--gold)}
+.otp-row{
+  display:flex;gap:8px;justify-content:center;
+  direction:ltr;margin-bottom:1.1rem;
+}
+.otp-c{
+  width:48px;height:54px;text-align:center;
+  background:var(--bg3);border:1.5px solid var(--border-h);
+  border-radius:12px;font-size:22px;font-weight:700;
+  color:var(--text);font-family:'Orbitron',sans-serif;
+  outline:none;transition:border-color .18s,background .18s;
+  caret-color:var(--gold);
+}
+.otp-c:focus{border-color:var(--gold);background:var(--bg2)}
+.otp-c.done{border-color:rgba(255,208,96,.4)}
+
+/* ── Buttons ── */
+.btn{
+  width:100%;padding:14px;border-radius:12px;
+  font-size:14.5px;font-weight:700;cursor:pointer;
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  transition:all .2s;border:none;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  margin-bottom:.75rem;position:relative;overflow:hidden;
+}
+.btn-g{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000}
+.btn-g:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,208,96,.38)}
+.btn-g:active:not(:disabled){transform:translateY(0);box-shadow:none}
+.btn-o{
+  background:transparent;
+  border:1.5px solid var(--border-h);
+  color:var(--text2);
+}
+.btn-o:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* ── Spinner ── */
+.ring{
+  width:18px;height:18px;border-radius:50%;
+  border:2.5px solid rgba(0,0,0,.2);border-top-color:#000;
+  animation:spin .7s linear infinite;display:none;flex-shrink:0;
+}
+.btn-o .ring{border-color:rgba(255,255,255,.15);border-top-color:var(--gold)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Resend row ── */
+.resend{text-align:center;font-size:12.5px;color:var(--text3);margin-bottom:.9rem}
+.resend-btn{
+  display:none;background:none;border:none;color:var(--blue);
+  font-size:12.5px;font-weight:700;cursor:pointer;
+  font-family:'IBM Plex Sans Arabic',sans-serif;padding:0;
+  transition:color .18s;
+}
+.resend-btn.show{display:inline}
+.resend-btn:hover{color:var(--gold)}
+
+/* ── Or divider ── */
+.divider{
+  display:flex;align-items:center;gap:10px;
+  color:var(--text3);font-size:12px;margin:.5rem 0 .8rem;
+}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border-h)}
+
+/* ── Forgot ── */
+.forgot{
+  text-align:center;margin-bottom:.7rem;
+}
+.forgot-btn{
+  background:none;border:none;color:var(--text3);
+  font-size:12px;cursor:pointer;font-family:inherit;
+  padding:0;transition:color .18s;
+}
+.forgot-btn:hover{color:var(--gold)}
+
+/* ── Loading overlay ── */
+.overlay{
+  position:absolute;inset:0;border-radius:22px;
+  background:rgba(14,18,32,.9);backdrop-filter:blur(3px);
+  display:none;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;z-index:20;
+}
+.overlay.on{display:flex}
+.big-ring{
+  width:46px;height:46px;border-radius:50%;
+  border:3.5px solid rgba(255,208,96,.18);
+  border-top-color:var(--gold);
+  animation:spin .85s linear infinite;
+}
+.ov-txt{color:var(--text2);font-size:13.5px;font-weight:500}
+
+/* ── Success ── */
+.success{
+  display:none;flex-direction:column;
+  align-items:center;text-align:center;
+  padding:1.5rem 0 .5rem;
+}
+.success.on{display:flex;animation:fadeUp .35s ease}
+.tick{
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(0,230,118,.1);border:2px solid rgba(0,230,118,.28);
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;margin-bottom:1.1rem;
+  animation:pop .45s cubic-bezier(.34,1.56,.64,1) both .1s;
+}
+@keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+.succ-h{font-size:19px;font-weight:700;margin-bottom:6px}
+.succ-s{font-size:13px;color:var(--text3)}
+
+/* ── Card footer ── */
+.foot{
+  text-align:center;margin-top:1.3rem;padding-top:1.1rem;
+  border-top:1px solid var(--border);
+  font-size:11.5px;color:var(--text3);display:flex;
+  align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;
+}
+.foot a{color:var(--text3);text-decoration:none;transition:color .18s}
+.foot a:hover{color:var(--gold)}
+.foot-sep{color:var(--border-h)}
+
+/* reCAPTCHA container (invisible) */
+#rcap{position:absolute;bottom:0;right:0;opacity:0;pointer-events:none}
+
+/* ── Mobile ── */
+@media(max-width:440px){
+  .card{padding:1.8rem 1.4rem 1.6rem;border-radius:18px}
+  .otp-c{width:42px;height:50px;font-size:20px;gap:6px}
+  .otp-row{gap:6px}
+}
+</style>
+</head>
+<body>
+
+<a class="nav-back" href="index.html">← المتجر الرئيسي</a>
+
+<div class="card" id="card">
+
+  <!-- Loading overlay -->
+  <div class="overlay" id="ov">
+    <div class="big-ring"></div>
+    <div class="ov-txt" id="ovTxt">جاري المعالجة...</div>
+  </div>
+
+  <!-- Logo -->
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <span class="logo-name">NEXUS STORE</span>
+    <span class="logo-tag">سجّل دخولك للمتابعة</span>
+  </div>
+
+  <!-- Success screen -->
+  <div class="success" id="succ">
+    <div class="tick">✓</div>
+    <div class="succ-h">تم تسجيل الدخول!</div>
+    <div class="succ-s">جاري تحويلك إلى صفحة الدفع...</div>
+  </div>
+
+  <!-- Main form -->
+  <div id="main">
+
+    <!-- Alert boxes -->
+    <div class="alert err" id="aerr"><span class="alert-ico">⚠️</span><span id="aerrTxt"></span></div>
+    <div class="alert ok"  id="aok" ><span class="alert-ico">✅</span><span id="aokTxt"></span></div>
+
+    <!-- Tabs -->
+    <div class="tabs" role="tablist">
+      <button class="tab-btn on" id="tPhone" onclick="goTab('phone')" role="tab" aria-selected="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1"/>
+        </svg>
+        رقم الجوال
+      </button>
+      <button class="tab-btn" id="tEmail" onclick="goTab('email')" role="tab" aria-selected="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/>
+        </svg>
+        البريد الإلكتروني
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════
+         PHONE VIEW
+         ══════════════════════════════════ -->
+    <div class="view on" id="vPhone">
+
+      <!-- Step 1: enter phone -->
+      <div id="s1">
+        <label class="lbl">رقم الجوال السعودي</label>
+        <div class="in-group">
+          <div class="in-prefix">🇸🇦 +966</div>
+          <input class="in-field ltr" id="phNum" type="tel" placeholder="5x xxxx xxxx"
+                 maxlength="10" inputmode="numeric"
+                 oninput="this.value=this.value.replace(/\D/g,'')"
+                 onkeydown="if(event.key==='Enter')doSend()"/>
+        </div>
+        <button class="btn btn-g" id="bSend" onclick="doSend()">
+          <span id="bSendLbl">إرسال رمز التحقق</span>
+          <div class="ring" id="bSendRing" style="border-top-color:#000"></div>
+        </button>
+      </div>
+
+      <!-- Step 2: enter OTP -->
+      <div id="s2" class="hidden">
+        <div class="otp-hint">
+          تم إرسال رمز التحقق إلى <strong id="phDisp"></strong>
+        </div>
+        <div class="otp-row" id="otpRow">
+          <input class="otp-c" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="one-time-code"/>
+          <input class="otp-c" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]"/>
+          <input class="otp-c" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]"/>
+          <input class="otp-c" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]"/>
+          <input class="otp-c" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]"/>
+          <input class="otp-c" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]"/>
+        </div>
+        <button class="btn btn-g" id="bVer" onclick="doVerify()">
+          <span id="bVerLbl">تحقق من الرمز</span>
+          <div class="ring" id="bVerRing" style="border-top-color:#000"></div>
+        </button>
+        <div class="resend">
+          <span id="rTxt">إعادة الإرسال بعد <strong id="rSec">60</strong>s</span>
+          <button class="resend-btn" id="bResend" onclick="doResend()">إعادة إرسال الرمز</button>
+        </div>
+        <div style="text-align:center">
+          <button class="forgot-btn" onclick="resetS1()">← تغيير رقم الجوال</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════
+         EMAIL VIEW
+         ══════════════════════════════════ -->
+    <div class="view" id="vEmail">
+
+      <label class="lbl">البريد الإلكتروني</label>
+      <input class="inp ltr" id="emIn" type="email" placeholder="example@email.com"
+             onkeydown="if(event.key==='Enter')document.getElementById('pwIn').focus()"/>
+
+      <label class="lbl">كلمة المرور</label>
+      <div class="pw-wrap">
+        <input class="inp ltr" id="pwIn" type="password" placeholder="••••••••"
+               style="padding-left:46px"
+               onkeydown="if(event.key==='Enter')doSignIn()"/>
+        <button class="eye" onclick="togPass()" type="button" tabindex="-1" aria-label="إظهار كلمة المرور">
+          <svg id="eyeO" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+          <svg id="eyeC" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+            <line x1="1" y1="1" x2="23" y2="23"/>
+          </svg>
+        </button>
+      </div>
+
+      <button class="btn btn-g" id="bIn" onclick="doSignIn()">
+        <span id="bInLbl">تسجيل الدخول</span>
+        <div class="ring" id="bInRing" style="border-top-color:#000"></div>
+      </button>
+
+      <div class="divider">أو</div>
+
+      <button class="btn btn-o" id="bUp" onclick="doSignUp()">
+        <span id="bUpLbl">إنشاء حساب جديد</span>
+        <div class="ring" id="bUpRing"></div>
+      </button>
+
+      <div class="forgot">
+        <button class="forgot-btn" onclick="doReset()">نسيت كلمة المرور؟</button>
+      </div>
+
+    </div>
+
+  </div><!-- /main -->
+
+  <!-- invisible reCAPTCHA -->
+  <div id="rcap"></div>
+
+  <div class="foot">
+    <a href="privacy-policy.html">سياسة الخصوصية</a>
+    <span class="foot-sep">•</span>
+    <a href="index.html">المتجر الرئيسي</a>
+    <span class="foot-sep">•</span>
+    <a href="https://wa.me/YOUR_NUMBER" target="_blank">الدعم</a>
+  </div>
+
+</div><!-- /card -->
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+//  Firebase Config
+// ══════════════════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "AIzaSyBiJ8k_ly0TxsdxbEDcwUCpo2XkIpDsEls",
+  authDomain:        "nexus-store-1cd1d.firebaseapp.com",
+  projectId:         "nexus-store-1cd1d",
+  storageBucket:     "nexus-store-1cd1d.firebasestorage.app",
+  messagingSenderId: "524288417267",
+  appId:             "1:524288417267:web:ab5ab13cb902ae04ecc686",
+  measurementId:     "G-7J6Z7QVYDV",
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth      = firebase.auth();
+const analytics = firebase.analytics();
+
+// ── Redirect target ──────────────────────────────────────────────
+const REDIRECT = 'payment.html';
+
+// ── Auto-redirect if already signed in ──────────────────────────
+auth.onAuthStateChanged(u => { if (u) succeed(); });
+
+// ── State ────────────────────────────────────────────────────────
+let confResult   = null;   // phone OTP confirmation
+let rcVerifier   = null;   // reCAPTCHA verifier
+let resendTimer  = null;   // interval id
+let currentTab   = 'phone';
+
+// ── Shorthand ────────────────────────────────────────────────────
+const g = id => document.getElementById(id);
+
+// ══════════════════════════════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════════════════════════════
+function goTab(tab) {
+  currentTab = tab;
+  clrMsg();
+  g('tPhone').classList.toggle('on', tab === 'phone');
+  g('tEmail').classList.toggle('on', tab === 'email');
+  g('vPhone').classList.toggle('on', tab === 'phone');
+  g('vEmail').classList.toggle('on', tab === 'email');
+  if (tab !== 'phone') resetS1();
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  PHONE — send OTP
+// ══════════════════════════════════════════════════════════════════
+async function doSend() {
+  clrMsg();
+  const raw = g('phNum').value.trim().replace(/\s/g, '');
+
+  if (!/^(05\d{8}|5\d{8})$/.test(raw)) {
+    showErr('أدخل رقم جوال سعودي صحيح (مثال: 0512345678)');
+    g('phNum').focus(); return;
+  }
+
+  const phone = fmtPhone(raw);
+  btnLoad('bSend', 'bSendLbl', 'bSendRing', true);
+  ovShow('جاري إرسال رمز التحقق عبر SMS...');
+
+  try {
+    if (!rcVerifier) {
+      rcVerifier = new firebase.auth.RecaptchaVerifier('rcap', {
+        size: 'invisible',
+        callback: () => {},
+        'expired-callback': () => { rcVerifier = null; },
+      });
+      await rcVerifier.render();
+    }
+
+    confResult = await auth.signInWithPhoneNumber(phone, rcVerifier);
+
+    // Show OTP step
+    g('s1').classList.add('hidden');
+    g('s2').classList.remove('hidden');
+    g('phDisp').textContent = phone;
+    g('otpRow').querySelectorAll('.otp-c')[0].focus();
+    startTimer();
+    showOk('✓ تم إرسال رمز التحقق إلى ' + phone);
+
+  } catch (e) {
+    showErr(fbErr(e.code));
+    if (rcVerifier) { try { rcVerifier.clear(); } catch(_){} rcVerifier = null; }
+  } finally {
+    btnLoad('bSend', 'bSendLbl', 'bSendRing', false);
+    ovHide();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  PHONE — verify OTP
+// ══════════════════════════════════════════════════════════════════
+async function doVerify() {
+  clrMsg();
+  const code = otpVal();
+
+  if (code.length < 6) {
+    showErr('أدخل رمز التحقق المكوّن من 6 أرقام كاملاً');
+    g('otpRow').querySelectorAll('.otp-c')[0].focus(); return;
+  }
+
+  btnLoad('bVer', 'bVerLbl', 'bVerRing', true);
+  ovShow('جاري التحقق من الرمز...');
+
+  try {
+    await confResult.confirm(code);
+    succeed();
+  } catch (e) {
+    showErr(fbErr(e.code));
+    clrOtp();
+  } finally {
+    btnLoad('bVer', 'bVerLbl', 'bVerRing', false);
+    ovHide();
+  }
+}
+
+// ── Resend ───────────────────────────────────────────────────────
+async function doResend() {
+  clrOtp(); confResult = null;
+  if (rcVerifier) { try { rcVerifier.clear(); } catch(_){} rcVerifier = null; }
+  g('bResend').classList.remove('show');
+  g('rTxt').style.display = '';
+  await doSend();
+}
+
+function startTimer() {
+  let s = 60;
+  g('rSec').textContent = s;
+  g('rTxt').style.display = '';
+  g('bResend').classList.remove('show');
+  clearInterval(resendTimer);
+  resendTimer = setInterval(() => {
+    s--;
+    g('rSec').textContent = s;
+    if (s <= 0) {
+      clearInterval(resendTimer);
+      g('rTxt').style.display = 'none';
+      g('bResend').classList.add('show');
+    }
+  }, 1000);
+}
+
+function resetS1() {
+  clearInterval(resendTimer);
+  g('s1').classList.remove('hidden');
+  g('s2').classList.add('hidden');
+  clrOtp(); confResult = null;
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  EMAIL — Sign In
+// ══════════════════════════════════════════════════════════════════
+async function doSignIn() {
+  clrMsg();
+  const em = g('emIn').value.trim();
+  const pw = g('pwIn').value;
+  if (!validEmail(em, pw)) return;
+
+  btnLoad('bIn', 'bInLbl', 'bInRing', true);
+  ovShow('جاري تسجيل الدخول...');
+
+  try {
+    await auth.signInWithEmailAndPassword(em, pw);
+    succeed();
+  } catch (e) {
+    showErr(fbErr(e.code));
+  } finally {
+    btnLoad('bIn', 'bInLbl', 'bInRing', false);
+    ovHide();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  EMAIL — Sign Up
+// ══════════════════════════════════════════════════════════════════
+async function doSignUp() {
+  clrMsg();
+  const em = g('emIn').value.trim();
+  const pw = g('pwIn').value;
+  if (!validEmail(em, pw)) return;
+
+  btnLoad('bUp', 'bUpLbl', 'bUpRing', true);
+  ovShow('جاري إنشاء الحساب...');
+
+  try {
+    await auth.createUserWithEmailAndPassword(em, pw);
+    succeed();
+  } catch (e) {
+    showErr(fbErr(e.code));
+  } finally {
+    btnLoad('bUp', 'bUpLbl', 'bUpRing', false);
+    ovHide();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  Forgot Password
+// ══════════════════════════════════════════════════════════════════
+async function doReset() {
+  clrMsg();
+  const em = g('emIn').value.trim();
+  if (!em || !em.includes('@')) {
+    showErr('أدخل بريدك الإلكتروني في الحقل أعلاه أولاً');
+    g('emIn').focus(); return;
+  }
+  ovShow('جاري إرسال رابط الاسترداد...');
+  try {
+    await auth.sendPasswordResetEmail(em);
+    showOk('✓ تم إرسال رابط إعادة تعيين كلمة المرور إلى ' + em);
+  } catch (e) {
+    showErr(fbErr(e.code));
+  } finally {
+    ovHide();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  Success → redirect
+// ══════════════════════════════════════════════════════════════════
+function succeed() {
+  g('main').style.display = 'none';
+  g('succ').classList.add('on');
+  setTimeout(() => { window.location.href = REDIRECT; }, 1600);
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  OTP box setup
+// ══════════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  const boxes = document.querySelectorAll('.otp-c');
+  boxes.forEach((b, i) => {
+    b.addEventListener('input', () => {
+      b.value = b.value.replace(/\D/g, '').slice(-1);
+      b.classList.toggle('done', !!b.value);
+      if (b.value && i < boxes.length - 1) boxes[i + 1].focus();
+    });
+    b.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !b.value && i > 0) {
+        boxes[i - 1].value = '';
+        boxes[i - 1].classList.remove('done');
+        boxes[i - 1].focus();
+      }
+      if (e.key === 'Enter') doVerify();
+    });
+    b.addEventListener('paste', e => {
+      const txt = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+      [...txt].forEach((d, j) => {
+        if (boxes[j]) { boxes[j].value = d; boxes[j].classList.add('done'); }
+      });
+      boxes[Math.min(txt.length, boxes.length - 1)].focus();
+      e.preventDefault();
+    });
+  });
+});
+
+function otpVal() {
+  return [...document.querySelectorAll('.otp-c')].map(b => b.value).join('');
+}
+function clrOtp() {
+  document.querySelectorAll('.otp-c').forEach(b => {
+    b.value = ''; b.classList.remove('done');
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  UI helpers
+// ══════════════════════════════════════════════════════════════════
+function ovShow(txt) { g('ov').classList.add('on'); g('ovTxt').textContent = txt; }
+function ovHide()    { g('ov').classList.remove('on'); }
+
+function btnLoad(id, lbl, ring, on) {
+  g(id).disabled          = on;
+  g(lbl).style.display    = on ? 'none' : '';
+  g(ring).style.display   = on ? 'inline-block' : 'none';
+}
+
+function showErr(msg) {
+  g('aerrTxt').textContent = msg;
+  g('aerr').classList.add('show');
+  g('aok').classList.remove('show');
+}
+function showOk(msg) {
+  g('aokTxt').textContent = msg;
+  g('aok').classList.add('show');
+  g('aerr').classList.remove('show');
+}
+function clrMsg() {
+  g('aerr').classList.remove('show');
+  g('aok').classList.remove('show');
+}
+
+function togPass() {
+  const p = g('pwIn');
+  const on = p.type === 'password';
+  p.type = on ? 'text' : 'password';
+  g('eyeO').style.display = on ? 'none' : '';
+  g('eyeC').style.display = on ? ''     : 'none';
+}
+
+function validEmail(em, pw) {
+  if (!em || !/\S+@\S+\.\S+/.test(em)) {
+    showErr('أدخل بريداً إلكترونياً صحيحاً'); return false;
+  }
+  if (!pw || pw.length < 6) {
+    showErr('كلمة المرور يجب أن تكون 6 أحرف على الأقل'); return false;
+  }
+  return true;
+}
+
+function fmtPhone(n) {
+  const c = n.replace(/\D/g, '');
+  if (c.startsWith('966')) return '+' + c;
+  if (c.startsWith('0'))   return '+966' + c.slice(1);
+  return '+966' + c;
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  Firebase errors → Arabic
+// ══════════════════════════════════════════════════════════════════
+function fbErr(code) {
+  const M = {
+    'auth/invalid-phone-number':         'رقم الجوال غير صحيح. استخدم الصيغة: 0512345678',
+    'auth/missing-phone-number':         'أدخل رقم الجوال',
+    'auth/too-many-requests':            'عدد كبير من المحاولات. انتظر قليلاً ثم أعد المحاولة',
+    'auth/invalid-verification-code':    'رمز التحقق غير صحيح. تأكد من الأرقام وأعد المحاولة',
+    'auth/session-expired':              'انتهت مدة الرمز. اضغط «إعادة إرسال الرمز»',
+    'auth/code-expired':                 'انتهت مدة الرمز. اضغط «إعادة إرسال الرمز»',
+    'auth/user-not-found':               'لا يوجد حساب بهذا البريد الإلكتروني',
+    'auth/wrong-password':               'كلمة المرور غير صحيحة',
+    'auth/invalid-credential':           'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+    'auth/email-already-in-use':         'هذا البريد الإلكتروني مسجَّل مسبقاً. جرّب «تسجيل الدخول»',
+    'auth/weak-password':                'كلمة المرور ضعيفة — 6 أحرف على الأقل',
+    'auth/invalid-email':                'صيغة البريد الإلكتروني غير صحيحة',
+    'auth/user-disabled':                'هذا الحساب موقوف. تواصل مع الدعم',
+    'auth/network-request-failed':       'فشل الاتصال بالخادم. تحقق من الإنترنت وأعد المحاولة',
+    'auth/captcha-check-failed':         'فشل التحقق الأمني. أعد تحميل الصفحة',
+    'auth/quota-exceeded':               'تجاوزت الحد المسموح. حاول مجدداً لاحقاً',
+    'auth/requires-recent-login':        'يرجى إعادة تسجيل الدخول للمتابعة',
+    'auth/operation-not-allowed':        'طريقة تسجيل الدخول غير مفعّلة في Firebase',
+    'auth/app-not-authorized':           'التطبيق غير مخوَّل. راجع إعدادات Firebase',
+    'auth/missing-verification-code':    'أدخل رمز التحقق أولاً',
+  };
+  return M[code] || `حدث خطأ — (${code || 'unknown'})`;
+}
+</script>
+</body>
+</html>

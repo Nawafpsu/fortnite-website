@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>سلة المشتريات — NEXUS STORE</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#EDEAE3;
+  --white:#FFFFFF;
+  --border:#E2DFDA;
+  --border2:#CCCAC4;
+  --text:#1A1A1A;
+  --text2:#6B6B6B;
+  --text3:#A0A0A0;
+  --gold:#E8A200;
+  --gold-h:#CC8F00;
+  --gold-bg:rgba(232,162,0,0.06);
+  --red:#E03A2F;
+  --green:#00A854;
+  --stc1:#3E1870;
+  --stc2:#12B28C;
+  --shadow:0 1px 3px rgba(0,0,0,0.05),0 3px 10px rgba(0,0,0,0.04);
+  --r:13px;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'IBM Plex Sans Arabic','Inter',sans-serif;
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* ─── TOPBAR ─────────────────────────────────────────────────── */
+.topbar{
+  background:var(--white);border-bottom:1px solid var(--border);
+  height:50px;padding:0 1.5rem;position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.crumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2)}
+.crumb a{color:var(--text2);text-decoration:none;cursor:pointer;transition:color .15s}
+.crumb a:hover{color:var(--gold)}
+.crumb-sep{font-size:10px;color:var(--border2)}
+.btn-back{
+  display:flex;align-items:center;gap:5px;
+  background:var(--white);border:1px solid var(--border2);
+  color:var(--text2);font-size:12.5px;font-weight:600;
+  padding:6px 14px;border-radius:9px;cursor:pointer;
+  font-family:inherit;transition:all .18s;
+}
+.btn-back:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ─── TOP SUMMARY BAR ────────────────────────────────────────── */
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.tsb{padding-top:1.4rem}
+.tsb-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:.9rem 1.25rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;box-shadow:var(--shadow);
+}
+.tsb-left{display:flex;flex-direction:column;gap:2px}
+.tsb-lbl{font-size:11px;color:var(--text3);font-weight:500}
+.tsb-amount{
+  display:flex;align-items:baseline;gap:5px;
+  font-family:'Inter',sans-serif;
+}
+.tsb-num{font-size:21px;font-weight:800;color:var(--gold)}
+.tsb-unit{font-size:11px;color:var(--text3);font-weight:600;font-family:'IBM Plex Sans Arabic',sans-serif}
+.tsb-mid{display:flex;gap:7px;align-items:center}
+.tsb-thumb{
+  width:38px;height:38px;border-radius:9px;
+  border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.tsb-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.link-coupon{
+  background:none;border:none;cursor:pointer;
+  color:#D04000;font-size:12.5px;font-weight:700;
+  font-family:inherit;padding:0;transition:opacity .18s;
+}
+.link-coupon:hover{opacity:.7}
+.btn-details{
+  background:var(--white);border:1px solid var(--border2);
+  color:var(--text2);font-size:12px;font-weight:600;
+  padding:5px 13px;border-radius:20px;cursor:pointer;
+  font-family:inherit;transition:all .18s;
+  display:flex;align-items:center;gap:5px;
+}
+.btn-details:hover{border-color:var(--border)}
+.tsb-detail-panel{
+  background:var(--white);
+  border:1px solid var(--border);border-top:none;
+  border-radius:0 0 var(--r) var(--r);
+  padding:10px 16px;display:none;
+}
+.tsb-detail-panel.open{display:block}
+.dp-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 0;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text2);
+}
+.dp-row:last-child{border-bottom:none}
+.dp-price{font-weight:700;color:var(--gold)}
+
+/* ─── LAYOUT ─────────────────────────────────────────────────── */
+.layout{
+  max-width:1080px;margin:1.25rem auto 3rem;padding:0 1.5rem;
+  display:grid;grid-template-columns:1fr 268px;
+  gap:1.2rem;align-items:start;
+}
+
+/* ─── SHARED CARD ────────────────────────────────────────────── */
+.card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;margin-bottom:1rem;
+  box-shadow:var(--shadow);
+}
+.card:last-child{margin-bottom:0}
+.ch{
+  padding:13px 17px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ch-title{
+  display:flex;align-items:center;gap:9px;
+  font-size:14px;font-weight:700;
+}
+.ch-icon{
+  width:31px;height:31px;border-radius:8px;
+  background:#F5F3EE;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+
+/* ─── CART ITEMS ─────────────────────────────────────────────── */
+.ci{
+  display:flex;align-items:center;gap:11px;
+  padding:13px 17px;border-bottom:1px solid var(--border);
+  transition:background .15s;
+}
+.ci:last-of-type{border-bottom:none}
+.ci:hover{background:#FDFCFB}
+.ci-del{
+  width:24px;height:24px;border-radius:50%;
+  background:rgba(224,58,47,.1);border:none;
+  color:var(--red);cursor:pointer;font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;flex-shrink:0;
+}
+.ci-del:hover{background:rgba(224,58,47,.2)}
+.ci-body{flex:1;min-width:0}
+.ci-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.ci-desc{font-size:11.5px;color:var(--text3)}
+.ci-foot{display:flex;align-items:center;gap:10px;margin-top:7px}
+.ci-price{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--gold)}
+.vsym{
+  width:15px;height:15px;background:var(--gold);color:#fff;
+  border-radius:50%;font-size:7.5px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Inter',sans-serif;flex-shrink:0;
+}
+.qty-wrap{display:flex;align-items:center;gap:6px}
+.q-btn{
+  width:26px;height:26px;border-radius:7px;
+  border:1px solid var(--border2);background:var(--white);
+  color:var(--text);cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;font-weight:700;line-height:1;
+}
+.q-btn:hover{border-color:var(--gold);color:var(--gold);background:#FFFAF0}
+.q-num{font-size:14px;font-weight:700;min-width:20px;text-align:center}
+.ci-img{
+  width:50px;height:50px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;flex-shrink:0;
+}
+.empty-cart{
+  padding:2.5rem;text-align:center;
+  color:var(--text3);font-size:13.5px;display:none;
+}
+.empty-cart-ico{font-size:38px;margin-bottom:8px;opacity:.35}
+
+/* ─── COUPON ─────────────────────────────────────────────────── */
+.coupon-wrap{
+  padding:13px 17px;border-top:1px solid var(--border);display:none;
+}
+.coupon-wrap.open{display:block}
+.coupon-row{display:flex;gap:8px}
+.coupon-in{
+  flex:1;background:#F8F6F2;border:1px solid var(--border2);
+  border-radius:9px;padding:10px 13px;font-size:13px;
+  color:var(--text);font-family:inherit;outline:none;
+  transition:border-color .18s;
+}
+.coupon-in:focus{border-color:var(--gold)}
+.coupon-in::placeholder{color:var(--text3)}
+.btn-apply{
+  background:var(--white);border:1px solid var(--border2);
+  color:var(--text2);padding:10px 15px;border-radius:9px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:inherit;transition:all .18s;white-space:nowrap;
+}
+.btn-apply:hover{border-color:var(--gold);color:var(--gold)}
+.coupon-msg{margin-top:7px;font-size:12px}
+.msg-ok{color:var(--green)}
+.msg-err{color:var(--red)}
+
+/* ─── LOGIN ──────────────────────────────────────────────────── */
+.login-body{padding:15px 17px}
+.login-hint{font-size:12px;color:var(--text3);margin-bottom:13px}
+.ph-wrap{
+  display:flex;border:1.5px solid var(--border2);border-radius:10px;
+  overflow:hidden;background:#F8F6F2;margin-bottom:9px;
+  transition:border-color .18s;
+}
+.ph-wrap:focus-within{border-color:var(--gold)}
+.ph-code{
+  padding:10px 12px;font-size:13px;font-weight:700;
+  background:#F0EDE6;border-left:1px solid var(--border2);
+  color:var(--text);flex-shrink:0;
+}
+.ph-in{
+  flex:1;background:none;border:none;outline:none;
+  padding:10px 12px;font-size:13px;color:var(--text);
+  font-family:inherit;direction:ltr;text-align:left;
+}
+.ph-in::placeholder{color:var(--text3)}
+.btn-login{
+  width:100%;background:var(--gold);color:#fff;border:none;
+  padding:12px;border-radius:10px;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .18s;
+}
+.btn-login:hover{background:var(--gold-h);transform:translateY(-1px)}
+.or-row{
+  display:flex;align-items:center;gap:9px;
+  margin:11px 0;color:var(--text3);font-size:11.5px;
+}
+.or-row::before,.or-row::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-email-reg{
+  width:100%;background:var(--white);border:1.5px solid var(--border2);
+  color:var(--gold);padding:11px;border-radius:10px;font-size:13.5px;
+  font-weight:700;cursor:pointer;font-family:inherit;transition:all .18s;
+}
+.btn-email-reg:hover{background:#FFFAF0}
+.logged-row{display:flex;align-items:center;gap:12px}
+.u-av{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--gold);color:#fff;
+  font-size:14px;font-weight:800;font-family:'Inter',sans-serif;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.u-name{font-size:14px;font-weight:700}
+.u-email{font-size:11.5px;color:var(--text3);margin-top:1px}
+.btn-change{
+  margin-right:auto;background:var(--white);
+  border:1px solid var(--border2);color:var(--text3);
+  font-size:12px;padding:5px 11px;border-radius:8px;
+  cursor:pointer;font-family:inherit;transition:all .18s;flex-shrink:0;
+}
+.btn-change:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ─── PAYMENT ────────────────────────────────────────────────── */
+.pay-body{padding:13px 17px;display:flex;flex-direction:column;gap:9px}
+.pay-opt{
+  border:1.5px solid var(--border2);border-radius:11px;
+  cursor:pointer;transition:all .18s;overflow:hidden;
+}
+.pay-opt.sel{border-color:var(--gold);background:var(--gold-bg)}
+.pay-row{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 13px;
+}
+.pay-radio{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid var(--border2);background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .18s;
+}
+.pay-opt.sel .pay-radio{border-color:var(--gold);background:var(--gold)}
+.radio-dot{width:7px;height:7px;border-radius:50%;background:#fff;display:none}
+.pay-opt.sel .radio-dot{display:block}
+.pay-logo{width:42px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pay-label{font-size:13.5px;font-weight:700;flex:1}
+.pay-sub-label{font-size:11.5px;color:var(--text3);font-weight:400;margin-top:1px}
+.pay-extra{
+  padding:10px 13px 13px;border-top:1px solid var(--border);
+  background:var(--white);display:none;
+}
+.pay-opt.sel .pay-extra{display:block}
+
+/* STC phone input */
+.stc-wrap{
+  display:flex;border:1.5px solid var(--border2);
+  border-radius:10px;overflow:hidden;background:#F8F6F2;
+  transition:border-color .18s;margin-bottom:6px;
+}
+.stc-wrap:focus-within{border-color:var(--gold)}
+.stc-code{
+  padding:9px 11px;font-size:13px;font-weight:700;
+  background:#F0EDE6;border-left:1px solid var(--border2);
+  color:var(--text);flex-shrink:0;
+}
+.stc-in{
+  flex:1;background:none;border:none;outline:none;
+  padding:9px 11px;font-size:13px;color:var(--text);
+  font-family:inherit;direction:ltr;text-align:left;
+}
+.stc-in::placeholder{color:var(--text3)}
+.stc-hint{font-size:11.5px;color:var(--text3)}
+
+/* Bank details */
+.bank-rows{display:flex;flex-direction:column;gap:7px}
+.brow{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 11px;background:#F8F6F2;border-radius:9px;gap:8px;
+}
+.blbl{display:flex;flex-direction:column;gap:1px;flex-shrink:0}
+.blbl-ar{font-size:11.5px;color:var(--text2);font-weight:500}
+.blbl-en{font-size:10.5px;color:var(--text3)}
+.bval{
+  font-size:12px;font-weight:600;color:var(--text);
+  font-family:'Inter',monospace;direction:ltr;text-align:left;
+  display:flex;align-items:center;gap:7px;
+}
+.btn-copy{
+  background:none;border:1px solid var(--border2);
+  border-radius:6px;color:var(--text3);padding:2px 8px;
+  font-size:10.5px;cursor:pointer;font-family:inherit;
+  transition:all .13s;white-space:nowrap;
+}
+.btn-copy:hover{border-color:var(--gold);color:var(--gold)}
+.btn-copy.ok{border-color:var(--green);color:var(--green)}
+
+/* ─── ORDER SUMMARY ──────────────────────────────────────────── */
+.sum-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:17px;
+  position:sticky;top:62px;box-shadow:var(--shadow);
+}
+.sum-ttl{
+  font-size:15px;font-weight:700;
+  padding-bottom:12px;margin-bottom:12px;
+  border-bottom:1px solid var(--border);
+}
+.sum-row{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:9px;font-size:13px;
+}
+.sum-lbl{color:var(--text2)}
+.sum-v{font-weight:600}
+.sum-disc{display:none}
+.sum-disc .sum-lbl,.sum-disc .sum-v{color:var(--green)}
+.sum-total-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:11px;margin-top:3px;border-top:1px solid var(--border);
+}
+.sum-total-lbl{font-size:15px;font-weight:700}
+.sum-total-val{
+  display:flex;align-items:baseline;gap:4px;
+  color:var(--gold);font-family:'Inter',sans-serif;
+}
+.sum-total-num{font-size:20px;font-weight:800}
+.sum-total-unit{font-size:11px;color:var(--text3);font-weight:600;font-family:'IBM Plex Sans Arabic',sans-serif}
+.btn-place{
+  width:100%;background:var(--gold);color:#fff;border:none;
+  border-radius:11px;padding:13px;font-size:14.5px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .2s;margin-top:13px;
+}
+.btn-place:hover{background:var(--gold-h);transform:translateY(-1px);box-shadow:0 5px 18px rgba(232,162,0,.35)}
+.btn-place:active{transform:translateY(0);box-shadow:none}
+
+/* ─── TOAST ──────────────────────────────────────────────────── */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:#1A1A1A;color:#fff;padding:10px 20px;
+  border-radius:10px;font-size:13px;font-weight:600;
+  opacity:0;transition:opacity .3s;pointer-events:none;
+  white-space:nowrap;z-index:999;
+}
+.toast.show{opacity:1}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+@media(max-width:720px){
+  .layout{grid-template-columns:1fr}
+  .sum-card{position:static}
+  .tsb-card{flex-direction:column;align-items:flex-start;gap:10px}
+  .tsb-right{align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="crumb">
+    <a onclick="window.history.back()">الرئيسية</a>
+    <span class="crumb-sep">/</span>
+    <span>سلة المشتريات</span>
+  </div>
+  <button class="btn-back" onclick="window.history.back()">← رجوع</button>
+</div>
+
+<!-- TOP SUMMARY BAR -->
+<div class="wrap tsb">
+  <div class="tsb-card">
+    <div class="tsb-left">
+      <div class="tsb-lbl">اجمالي الطلب</div>
+      <div class="tsb-amount">
+        <span class="tsb-num" id="tsbNum">0</span>
+        <span class="tsb-unit">V-Bucks</span>
+      </div>
+    </div>
+    <div class="tsb-mid" id="tsbThumbs"></div>
+    <div class="tsb-right">
+      <button class="link-coupon" onclick="toggleCoupon()">لديك كوبون تخفيض؟</button>
+      <button class="btn-details" onclick="toggleDetails()">
+        تفاصيل الطلب <span id="dArrow">▾</span>
+      </button>
+    </div>
+  </div>
+  <div class="tsb-detail-panel" id="detPanel">
+    <div id="detList"></div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- CONTENT COLUMN (right in RTL) -->
+  <div>
+
+    <!-- CART CARD -->
+    <div class="card">
+      <div class="ch">
+        <div class="ch-title"><div class="ch-icon">🛒</div>سلة المشتريات</div>
+      </div>
+      <div id="cartList"></div>
+      <div class="empty-cart" id="emptyCart">
+        <div class="empty-cart-ico">🛒</div>
+        السلة فارغة
+      </div>
+      <!-- Coupon -->
+      <div class="coupon-wrap" id="couponWrap">
+        <div class="coupon-row">
+          <input class="coupon-in" id="couponIn" type="text" placeholder="أدخل كود الخصم"
+                 onkeydown="if(event.key==='Enter')applyCoupon()"/>
+          <button class="btn-apply" onclick="applyCoupon()">تطبيق</button>
+        </div>
+        <div class="coupon-msg" id="couponMsg" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- LOGIN CARD -->
+    <div class="card">
+      <div class="ch">
+        <div class="ch-title"><div class="ch-icon">👤</div>تسجيل الدخول / التسجيل</div>
+      </div>
+      <div class="login-body">
+        <div class="login-hint">سجل دخولك أو أنشئ حساباً جديداً لإتمام طلبك.</div>
+
+        <!-- Logged-out state -->
+        <div id="stateOut">
+          <div class="ph-wrap">
+            <div class="ph-code">+966</div>
+            <input class="ph-in" id="phIn" type="tel" placeholder="051 234 5678" maxlength="10"
+                   onkeydown="if(event.key==='Enter')doLogin()"/>
+          </div>
+          <button class="btn-login" onclick="doLogin()">دخول</button>
+          <div class="or-row">أو</div>
+          <button class="btn-email-reg" onclick="promptEmailLogin()">التسجيل بالبريد الإلكتروني</button>
+        </div>
+
+        <!-- Logged-in state -->
+        <div id="stateIn" style="display:none">
+          <div class="logged-row">
+            <div class="u-av" id="uAv">N</div>
+            <div>
+              <div class="u-name" id="uName">Nawaf</div>
+              <div class="u-email" id="uEmail">shnawaf05@gmail.com</div>
+            </div>
+            <button class="btn-change" onclick="doLogout()">تغيير</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT CARD -->
+    <div class="card">
+      <div class="ch">
+        <div class="ch-title">
+          <div class="ch-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          </div>
+          الدفع
+        </div>
+      </div>
+      <div class="pay-body">
+
+        <!-- STC Pay -->
+        <div class="pay-opt sel" id="opt-stc" onclick="selPay('stc',event)">
+          <div class="pay-row">
+            <div class="pay-radio"><div class="radio-dot"></div></div>
+            <div class="pay-logo">
+              <svg viewBox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                <defs><clipPath id="stcCp"><rect width="40" height="40" rx="9"/></clipPath></defs>
+                <g clip-path="url(#stcCp)">
+                  <rect width="40" height="20" fill="#3E1870"/>
+                  <rect y="20" width="40" height="20" fill="#12B28C"/>
+                </g>
+                <text x="20" y="14" text-anchor="middle" fill="white" font-size="9" font-weight="700"
+                      font-family="'Inter',Arial,sans-serif" letter-spacing="1">stc</text>
+                <text x="20" y="32" text-anchor="middle" fill="white" font-size="12" font-weight="800"
+                      font-family="'Inter',Arial,sans-serif">pay</text>
+              </svg>
+            </div>
+            <div>
+              <div class="pay-label">STC Pay</div>
+              <div class="pay-sub-label">اس تي سي باي</div>
+            </div>
+          </div>
+          <div class="pay-extra" onclick="event.stopPropagation()">
+            <div class="stc-wrap">
+              <div class="stc-code">+966</div>
+              <input class="stc-in" id="stcIn" type="tel"
+                     placeholder="رقم جوالك المسجّل في STC Pay" maxlength="10"/>
+            </div>
+            <div class="stc-hint">أدخل رقم جوالك المسجّل في تطبيق STC Pay لاستكمال الدفع</div>
+          </div>
+        </div>
+
+        <!-- Bank Transfer -->
+        <div class="pay-opt" id="opt-bank" onclick="selPay('bank',event)">
+          <div class="pay-row">
+            <div class="pay-radio"><div class="radio-dot"></div></div>
+            <div class="pay-logo">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#666"
+                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="3,10 12,3 21,10"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <line x1="5" y1="10" x2="5" y2="19"/>
+                <line x1="9" y1="10" x2="9" y2="19"/>
+                <line x1="15" y1="10" x2="15" y2="19"/>
+                <line x1="19" y1="10" x2="19" y2="19"/>
+                <line x1="3"  y1="19" x2="21" y2="19"/>
+              </svg>
+            </div>
+            <div>
+              <div class="pay-label">تحويل بنكي</div>
+              <div class="pay-sub-label">Bank Transfer</div>
+            </div>
+          </div>
+          <div class="pay-extra" onclick="event.stopPropagation()">
+            <div class="bank-rows">
+              <div class="brow">
+                <div class="blbl"><span class="blbl-ar">اسم البنك</span><span class="blbl-en">Bank Name</span></div>
+                <div class="bval">Al Rajhi — الراجحي</div>
+              </div>
+              <div class="brow">
+                <div class="blbl"><span class="blbl-ar">اسم الحساب</span><span class="blbl-en">Account Name</span></div>
+                <div class="bval">NEXUS STORE</div>
+              </div>
+              <div class="brow">
+                <div class="blbl"><span class="blbl-ar">رقم الآيبان</span><span class="blbl-en">IBAN</span></div>
+                <div class="bval">
+                  <span id="ibanTxt" dir="ltr">SA44 2000 0001 2345 6789</span>
+                  <button class="btn-copy" id="btnCopy" onclick="copyIban()">نسخ</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content column -->
+
+  <!-- SUMMARY COLUMN (left in RTL) -->
+  <div>
+    <div class="sum-card">
+      <div class="sum-ttl">ملخص الطلب</div>
+      <div class="sum-row">
+        <span class="sum-lbl">مجموع المنتجات</span>
+        <span class="sum-v">V <span id="sSub">0</span></span>
+      </div>
+      <div class="sum-row sum-disc" id="sDiscRow">
+        <span class="sum-lbl">خصم الكوبون</span>
+        <span class="sum-v">− V <span id="sDisc">0</span></span>
+      </div>
+      <div class="sum-total-row">
+        <span class="sum-total-lbl">الإجمالي</span>
+        <span class="sum-total-val">
+          <span class="sum-total-num" id="sTotal">0</span>
+          <span class="sum-total-unit">V-Bucks</span>
+        </span>
+      </div>
+      <button class="btn-place" onclick="placeOrder()">اتمام الطلب</button>
+    </div>
+  </div>
+
+</div><!-- /layout -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────────
+
+const PRODUCTS = [
+  {id:1, name:'ليفياثان',      desc:'ملاح أعماق الكون',  emoji:'🐟', price:2000, bg:'linear-gradient(135deg,#3A1E00,#904800,#C86000)'},
+  {id:2, name:'رينيغيد رايدر', desc:'سكن أسطوري نادر',   emoji:'🏹', price:1800, bg:'linear-gradient(135deg,#2A0010,#800050,#B00070)'},
+];
+
+let cart    = [{...PRODUCTS[0], qty:1}];   // start with one item
+let user    = {name:'Nawaf', email:'shnawaf05@gmail.com', initials:'N'};
+let selMethod = 'stc';
+let discount  = 0;
+
+const COUPONS = {NEXUS10:10, FNITE20:20, VIP30:30};
+
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+
+(function init(){
+  render();
+  setLoggedIn(user);
+})();
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+
+function render(){
+  renderCart();
+  renderSummary();
+  renderTopBar();
+  renderDetails();
+}
+
+function renderCart(){
+  const list  = document.getElementById('cartList');
+  const empty = document.getElementById('emptyCart');
+  if(!cart.length){ list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display = 'none';
+  list.innerHTML = cart.map(p=>`
+    <div class="ci" id="ci${p.id}">
+      <button class="ci-del" onclick="removeItem(${p.id})" aria-label="حذف">✕</button>
+      <div class="ci-body">
+        <div class="ci-name">${p.name}</div>
+        <div class="ci-desc">${p.desc}</div>
+        <div class="ci-foot">
+          <div class="ci-price"><div class="vsym">V</div><span id="ip${p.id}">${fmt(p.price*p.qty)}</span></div>
+          <div class="qty-wrap">
+            <button class="q-btn" onclick="chQty(${p.id},1)">+</button>
+            <span class="q-num" id="qn${p.id}">${p.qty}</span>
+            <button class="q-btn" onclick="chQty(${p.id},-1)">−</button>
+          </div>
+        </div>
+      </div>
+      <div class="ci-img" style="background:${p.bg}">${p.emoji}</div>
+    </div>`).join('');
+}
+
+function renderSummary(){
+  const sub   = cart.reduce((s,p)=>s+p.price*p.qty, 0);
+  const total = Math.max(0, sub - discount);
+  document.getElementById('sSub').textContent   = fmt(sub);
+  document.getElementById('sTotal').textContent = fmt(total);
+  document.getElementById('tsbNum').textContent = fmt(total);
+  const dr = document.getElementById('sDiscRow');
+  if(discount>0){
+    dr.style.display='flex';
+    document.getElementById('sDisc').textContent = fmt(discount);
+  } else { dr.style.display='none'; }
+}
+
+function renderTopBar(){
+  document.getElementById('tsbThumbs').innerHTML =
+    cart.map(p=>`<div class="tsb-thumb" style="background:${p.bg}">${p.emoji}</div>`).join('');
+}
+
+function renderDetails(){
+  document.getElementById('detList').innerHTML =
+    cart.map(p=>`
+      <div class="dp-row">
+        <span>${p.name} × ${p.qty}</span>
+        <span class="dp-price">${fmt(p.price*p.qty)} V</span>
+      </div>`).join('');
+}
+
+function fmt(n){ return n.toLocaleString('en'); }
+
+// ── CART ACTIONS ──────────────────────────────────────────────────────────────
+
+function removeItem(id){
+  cart = cart.filter(p=>p.id!==id);
+  render();
+  toast('تم حذف المنتج من السلة');
+}
+
+function chQty(id, d){
+  const p = cart.find(x=>x.id===id);
+  if(!p) return;
+  p.qty = Math.max(1, p.qty+d);
+  document.getElementById('qn'+id).textContent  = p.qty;
+  document.getElementById('ip'+id).textContent  = fmt(p.price*p.qty);
+  renderSummary();
+  renderDetails();
+  renderTopBar();
+}
+
+// ── COUPON ────────────────────────────────────────────────────────────────────
+
+function toggleCoupon(){
+  const w = document.getElementById('couponWrap');
+  w.classList.toggle('open');
+  if(w.classList.contains('open'))
+    setTimeout(()=>document.getElementById('couponIn').focus(),80);
+}
+
+function applyCoupon(){
+  const code = document.getElementById('couponIn').value.trim().toUpperCase();
+  const msg  = document.getElementById('couponMsg');
+  msg.style.display = 'block';
+  if(COUPONS[code]){
+    const sub = cart.reduce((s,p)=>s+p.price*p.qty,0);
+    discount  = Math.floor(sub * COUPONS[code] / 100);
+    msg.className = 'coupon-msg msg-ok';
+    msg.textContent = `✓ تم تطبيق الكوبون — خصم ${COUPONS[code]}%`;
+  } else {
+    discount = 0;
+    msg.className = 'coupon-msg msg-err';
+    msg.textContent = '✕ كوبون غير صحيح';
+  }
+  renderSummary();
+}
+
+// ── DETAILS TOGGLE ────────────────────────────────────────────────────────────
+
+function toggleDetails(){
+  const p = document.getElementById('detPanel');
+  const a = document.getElementById('dArrow');
+  p.classList.toggle('open');
+  a.textContent = p.classList.contains('open') ? '▴' : '▾';
+}
+
+// ── PAYMENT ───────────────────────────────────────────────────────────────────
+
+function selPay(type, e){
+  selMethod = type;
+  ['stc','bank'].forEach(t=>{
+    const el = document.getElementById('opt-'+t);
+    el.classList.toggle('sel', t===type);
+  });
+}
+
+function copyIban(){
+  const raw = document.getElementById('ibanTxt').textContent.replace(/\s/g,'');
+  const btn = document.getElementById('btnCopy');
+  navigator.clipboard.writeText(raw).then(()=>{
+    btn.classList.add('ok'); btn.textContent='✓ تم';
+    setTimeout(()=>{btn.classList.remove('ok');btn.textContent='نسخ';},2200);
+  }).catch(()=>{
+    const t=document.createElement('textarea');
+    t.value=raw; document.body.appendChild(t); t.select();
+    document.execCommand('copy'); document.body.removeChild(t);
+    btn.textContent='✓ تم'; setTimeout(()=>{btn.textContent='نسخ';},2200);
+  });
+}
+
+// ── LOGIN ─────────────────────────────────────────────────────────────────────
+
+function doLogin(){
+  const ph = document.getElementById('phIn').value.trim();
+  if(!ph || ph.replace(/\D/g,'').length<9){ toast('أدخل رقم جوال صحيح'); return; }
+  setLoggedIn({name:'+966 '+ph, email:ph+'@phone.sa', initials:ph.replace(/\D/g,'').slice(-2)});
+  toast('مرحباً!');
+}
+
+function promptEmailLogin(){
+  const n = prompt('الاسم الكامل / Full Name:');
+  if(!n) return;
+  const e = prompt('البريد الإلكتروني / Email:');
+  if(!e) return;
+  setLoggedIn({name:n.trim(), email:e.trim(), initials:(n.trim()[0]||'U').toUpperCase()});
+  toast('مرحباً ' + n.trim() + '!');
+}
+
+function setLoggedIn(u){
+  user = u;
+  document.getElementById('stateOut').style.display = 'none';
+  document.getElementById('stateIn').style.display  = 'block';
+  document.getElementById('uAv').textContent    = u.initials;
+  document.getElementById('uName').textContent  = u.name;
+  document.getElementById('uEmail').textContent = u.email;
+}
+
+function doLogout(){
+  user = null;
+  document.getElementById('stateIn').style.display  = 'none';
+  document.getElementById('stateOut').style.display = 'block';
+  document.getElementById('phIn').value = '';
+}
+
+// ── PLACE ORDER ───────────────────────────────────────────────────────────────
+
+function placeOrder(){
+  if(!cart.length)  { toast('السلة فارغة');                   return; }
+  if(!user)         { toast('يرجى تسجيل الدخول أولاً');       return; }
+
+  const total = document.getElementById('sTotal').textContent;
+  const items = cart.map(p=>`${p.name} ×${p.qty}`).join('\n');
+
+  if(selMethod==='stc'){
+    const ph = document.getElementById('stcIn').value.trim();
+    if(!ph || ph.replace(/\D/g,'').length<9){
+      toast('أدخل رقم جوالك المسجّل في STC Pay'); return;
+    }
+    const msg = `🛒 طلب جديد — STC Pay\n${items}\nالمجموع: ${total} V-Bucks\nرقم STC: +966${ph}`;
+    window.open('https://wa.me/YOUR_NUMBER?text='+encodeURIComponent(msg),'_blank');
+  } else {
+    const msg = `🛒 طلب جديد — تحويل بنكي\n${items}\nالمجموع: ${total} V-Bucks`;
+    window.open('https://wa.me/YOUR_NUMBER?text='+encodeURIComponent(msg),'_blank');
+  }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
